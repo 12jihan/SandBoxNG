@@ -1,11 +1,18 @@
 # ninja log v5
 6	222	1714766431747647983	CMakeFiles/sandbox.dir/main.cpp.o	6acc65f2c48d483a
-6	247	1714807460082470421	CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o	c7db811c5e3e4dd4
-7	528	1714843030083920100	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
-420	548	1714808057757450623	sandbox	163b93b028d8c86e
+6	504	1714855876689780061	CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o	c7db811c5e3e4dd4
+6	303	1714855959669664947	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
+279	311	1714844377066651163	sandbox	865aa70fd883a27c
 5	9	0	clean	1f0117926fe85a19
 5	528	1714843480351295135	CMakeFiles/sandbox.dir/src/app/Game.cpp.o	a74f7fc79e90fb88
-6	262	1714844351214211883	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
-262	392	1714844351343336226	sandbox	865aa70fd883a27c
-5	278	1714844377033558486	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
-279	311	1714844377066651163	sandbox	865aa70fd883a27c
+4	311	1714856261782761577	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
+4	312	1714856261783298124	CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o	c7db811c5e3e4dd4
+4	313	1714856261785521148	CMakeFiles/sandbox.dir/src/app/Game.cpp.o	a74f7fc79e90fb88
+4	433	1714856381892565285	CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o	c7db811c5e3e4dd4
+4	434	1714856381893995717	CMakeFiles/sandbox.dir/src/app/Game.cpp.o	a74f7fc79e90fb88
+5	435	1714856381895176521	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
+2	5	0	clean	1f0117926fe85a19
+7	313	1714856421827456820	CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o	c7db811c5e3e4dd4
+7	313	1714856421828275703	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
+6	314	1714856421829060212	CMakeFiles/sandbox.dir/src/app/Game.cpp.o	a74f7fc79e90fb88
+7	524	1714856777193721681	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56

@@ -1,18 +1,9 @@
-#include <iostream>
 #include "./includes/Game.h"
 
+#include <iostream>
 
-Game::Game()
-{
-    std::cout << "Game Constructor" << std::endl;
-}
+#include "./includes/WindowManager.h"
 
-Game::~Game()
-{
-    std::cout << "Game Destructor" << std::endl;
-}
-
-void Game::run()
-{
+void Game::run() {
     std::cout << "Running" << std::endl;
 }
