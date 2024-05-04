@@ -8,9 +8,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Configure Vulkan and GLFW
 find_package(Vulkan REQUIRED)
 find_package(glfw3 REQUIRED)
+find_package(glm REQUIRED)
 
 # Include directories for the project
 include_directories(${Vulkan_INCLUDE_DIRS} include)
+include_directories(${GLM_INCLUDE_DIRS})
 
 # Add source files
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/*.cpp")
