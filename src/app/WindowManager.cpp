@@ -1,4 +1,4 @@
-#include "./includes/WindowManager.h"
+#include "./includes/WindowManager.hpp"
 
 WindowManager::WindowManager(std::string title, int width, int height) : title("Default title"), width(800), height(600) {
     this->title = title;

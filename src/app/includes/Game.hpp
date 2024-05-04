@@ -1,7 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 
-#include "./WindowManager.h"
+#include "./WindowManager.hpp"
 
 class Game {
    public:

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "./includes/Game.h"
+#include "./includes/Game.hpp"
 
 int main() {
     Game engine;
