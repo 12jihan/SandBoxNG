@@ -10,7 +10,6 @@ class WindowManager {
     int get_height();
     void init();
     void poll_events();
-    void run();
     void clean();
 
     // Getters:
@@ -18,11 +17,8 @@ class WindowManager {
     GLFWwindow *get_window() const;
 
     // Setters:
-    void set_window(GLFWwindow &window);
-    void set_title(std::string &title);
-
-    // Destructors:
-    ~WindowManager();
+    // void set_window(GLFWwindow &window);
+    // void set_title(std::string &title);
 
    private:
     std::string title;

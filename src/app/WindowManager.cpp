@@ -7,6 +7,7 @@ WindowManager::WindowManager(std::string title, int width, int height) : title("
 }
 
 void WindowManager::init() {
+    std::cout << "WindowManager initializing..." << std::endl;
     if (!glfwInit()) {
         std::invalid_argument("Could not initialize glfw window");
     }
@@ -15,6 +16,7 @@ void WindowManager::init() {
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     if (window == NULL) {
+        std::invalid_argument("Could not create window");
     }
 }
 

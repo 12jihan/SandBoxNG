@@ -6,7 +6,10 @@
 class Game {
    public:
     void run();
+    void init();
+    void loop();
+    void clean();
 
    private:
-    WindowManager *win_man;
+    WindowManager *window;
 };

@@ -22,3 +22,7 @@
 5	301	1714859922714596831	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
 5	302	1714859922716123659	CMakeFiles/sandbox.dir/src/app/Game.cpp.o	a74f7fc79e90fb88
 302	334	1714859922748264672	sandbox	163b93b028d8c86e
+5	563	1714860193702953164	CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o	c7db811c5e3e4dd4
+5	564	1714860193701994084	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
+5	564	1714860193705125448	CMakeFiles/sandbox.dir/src/app/Game.cpp.o	a74f7fc79e90fb88
+564	686	1714860193826326612	sandbox	163b93b028d8c86e

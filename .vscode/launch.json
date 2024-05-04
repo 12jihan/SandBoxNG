@@ -8,8 +8,7 @@
       "program": "${workspaceFolder}/build/${workspaceFolderBasename}",
       "args": [],
       "cwd": "${workspaceFolder}",
-      "preLaunchTask": "CMake: Build",
-      "terminal": "external",
+      "terminal": "integrated",
     }
   ]
 }
