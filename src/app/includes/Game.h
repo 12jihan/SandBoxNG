@@ -5,8 +5,6 @@
 
 class Game {
    public:
-    Game();   // Constructor
-    ~Game();  // Destructor
     void run();
 
    private:
