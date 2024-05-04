@@ -9,15 +9,18 @@ WindowManager::WindowManager(std::string title, int width, int height) : title("
 void WindowManager::init() {
     std::cout << "WindowManager initializing..." << std::endl;
     if (!glfwInit()) {
-        std::invalid_argument("Could not initialize glfw window");
+        std::cerr << "Could not initialize glfw window";
+        std::exit(EXIT_FAILURE);
     }
 
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-    if (window == NULL) {
-        std::invalid_argument("Could not create window");
+    window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+    if (!window) {
+        std::cerr << "Could not create window";
+        std::exit(EXIT_FAILURE);
     }
+    glfwMakeContextCurrent(window);
 }
 
 void WindowManager::poll_events() {

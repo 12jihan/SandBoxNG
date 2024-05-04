@@ -18,6 +18,7 @@ void Game::init() {
 void Game::loop() {
     while (!glfwWindowShouldClose(window->get_window())) {
         std::cout << "Game Looping..." << std::endl;
+        window->poll_events();
     }
 }
 
