@@ -7,11 +7,7 @@ class Game {
    public:
     Game();   // Constructor
     ~Game();  // Destructor
-
     void run();
-    void init();
-    void update();
-    void clean();
 
    private:
     WindowManager *win_man;
