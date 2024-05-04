@@ -1,9 +1,9 @@
 #include <iostream>
-#include 
 #include "./includes/Game.h"
 
 int main()
 {   
-    // Game engine{};
-    // engine.run();
+    Game engine;
+    engine.run();
+    return 0;
 }

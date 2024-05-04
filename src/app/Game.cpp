@@ -1,49 +1,18 @@
 #include <iostream>
 #include "./includes/Game.h"
 
-void Game::run()
+
+Game::Game()
 {
-    init();
-    loop();
-    clean();
+    std::cout << "Game Constructor" << std::endl;
 }
 
-void Game::init()
+Game::~Game()
 {
-    std::cout << "Game initialized" << std::endl;
-};
-void Game::loop()
-{
-    input();
-    update();
-    render();
-};
+    std::cout << "Game Destructor" << std::endl;
+}
 
-void Game::input()
+void Game::run()
 {
-    keyboard_input();
-    mouse_input();
-};
-
-void Game::update()
-{
-    std::cout << "Game updated" << std::endl;
-};
-
-void Game::render()
-{
-    std::cout << "Game rendered" << std::endl;
-};
-
-void Game::clean()
-{
-    std::cout << "Game cleaned" << std::endl;
-};
-void Game::keyboard_input()
-{
-    std::cout << "Keyboard input" << std::endl;
-};
-void Game::mouse_input()
-{
-    std::cout << "Mouse input" << std::endl;
-};
+    std::cout << "Running" << std::endl;
+}
