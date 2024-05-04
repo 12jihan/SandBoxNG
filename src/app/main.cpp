@@ -1,7 +1,8 @@
 #include <iostream>
+#include "./includes/Game.h"
 
 int main()
-{
-    std::cout << "Hello, world!" << std::endl;
-    return 0;
+{   
+    Game engine{};
+    engine.run();
 }

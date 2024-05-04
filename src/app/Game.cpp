@@ -1,17 +1,49 @@
 #include <iostream>
+#include "./includes/Game.h"
 
-class Game {
-    // Add member functions and variables here
-public:
-    void start() {
-        // Code for starting the game
-    }
+void Game::run()
+{
+    init();
+    loop();
+    clean();
+}
 
-    void update() {
-        // Code for updating the game state
-    }
+void Game::init()
+{
+    std::cout << "Game initialized" << std::endl;
+};
+void Game::loop()
+{
+    input();
+    update();
+    render();
+};
 
-    void render() {
-        // Code for rendering the game
-    }
+void Game::input()
+{
+    keyboard_input();
+    mouse_input();
+};
+
+void Game::update()
+{
+    std::cout << "Game updated" << std::endl;
+};
+
+void Game::render()
+{
+    std::cout << "Game rendered" << std::endl;
+};
+
+void Game::clean()
+{
+    std::cout << "Game cleaned" << std::endl;
+};
+void Game::keyboard_input()
+{
+    std::cout << "Keyboard input" << std::endl;
+};
+void Game::mouse_input()
+{
+    std::cout << "Mouse input" << std::endl;
 };

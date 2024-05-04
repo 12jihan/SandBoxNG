@@ -147,12 +147,27 @@
 			"path" : "/opt/homebrew/Cellar/cmake/3.29.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake"
 		},
 		{
+			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "/opt/homebrew/lib/cmake/glfw3/GLFW3ConfigVersion.cmake"
+			"path" : "/opt/homebrew/Cellar/cmake/3.29.2/share/cmake/Modules/FindVulkan.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/opt/homebrew/Cellar/cmake/3.29.2/share/cmake/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/opt/homebrew/Cellar/cmake/3.29.2/share/cmake/Modules/FindPackageMessage.cmake"
 		},
 		{
 			"isExternal" : true,
-			"path" : "/opt/homebrew/lib/cmake/glfw3/GLFW3Config.cmake"
+			"path" : "/opt/homebrew/lib/cmake/glfw3/glfw3ConfigVersion.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "/opt/homebrew/lib/cmake/glfw3/glfw3Config.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -201,21 +216,6 @@
 		{
 			"isExternal" : true,
 			"path" : "/opt/homebrew/lib/cmake/glfw3/glfw3Targets-release.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/opt/homebrew/Cellar/cmake/3.29.2/share/cmake/Modules/FindVulkan.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/opt/homebrew/Cellar/cmake/3.29.2/share/cmake/Modules/FindPackageHandleStandardArgs.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "/opt/homebrew/Cellar/cmake/3.29.2/share/cmake/Modules/FindPackageMessage.cmake"
 		}
 	],
 	"kind" : "cmakeFiles",
