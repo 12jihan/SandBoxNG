@@ -1,6 +1,6 @@
 #include "./includes/WindowManager.hpp"
 
-WindowManager::WindowManager(std::string title, int width, int height) : title("Default title"), width(800), height(600) {
+WindowManager::WindowManager(const char* title, int width, int height) : title("Default title"), width(800), height(600) {
     this->title = title;
     this->width = width;
     this->height = height;
@@ -15,7 +15,7 @@ void WindowManager::init() {
 
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+    window = glfwCreateWindow(width, height, this->title, nullptr, nullptr);
     if (!window) {
         std::cerr << "Could not create window";
         std::exit(EXIT_FAILURE);
@@ -32,7 +32,7 @@ void WindowManager::clean() {
 }
 
 // Getters:
-GLFWwindow *WindowManager::get_window() const {
+GLFWwindow* WindowManager::get_window() const {
     return window;
 }
 

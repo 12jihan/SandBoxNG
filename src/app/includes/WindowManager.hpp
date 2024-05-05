@@ -5,7 +5,7 @@
 
 class WindowManager {
    public:
-    WindowManager(std::string title, int width, int height);
+    WindowManager(const char *title, int width, int height);
     int get_width();
     int get_height();
     void init();
@@ -21,8 +21,8 @@ class WindowManager {
     // void set_title(std::string &title);
 
    private:
-    std::string title;
+    const char *title;
     int width;
     int height;
-    GLFWwindow *window;
+    GLFWwindow *window = nullptr;
 };
