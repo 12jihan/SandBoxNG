@@ -2,13 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "clang++ - Build and debug active file",
+      "name": "Build and debug",
       "type": "lldb",
       "request": "launch",
       "program": "${workspaceFolder}/build/${workspaceFolderBasename}",
       "args": [],
       "cwd": "${workspaceFolder}",
-      "terminal": "external",
+      "terminal": "integrated",
       "preLaunchTask": "CMake: Build"
     }
   ]

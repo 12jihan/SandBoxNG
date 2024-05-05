@@ -5,24 +5,24 @@
 
 class WindowManager {
    public:
-    WindowManager(const char *title, int width, int height);
+    WindowManager(std::string title, int width, int height);
     int get_width();
     int get_height();
     void init();
     void poll_events();
     void clean();
 
-    // Getters:
+    // implement this crap later:
     std::string get_title();
     GLFWwindow *get_window() const;
 
-    // Setters:
-    // void set_window(GLFWwindow &window);
-    // void set_title(std::string &title);
-
    private:
-    const char *title;
+    GLFWwindow *m_window;
+    std::string m_title;
     int width;
     int height;
-    GLFWwindow *window = nullptr;
+
+    void create_window(std::string title, int width, int height);
+    void context_current(GLFWwindow *win);
+    void window_hints();
 };
