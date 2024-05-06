@@ -1,5 +1,7 @@
 #include "./includes/WindowManager.hpp"
 
+#include "./includes/VulkanInstance.hpp"
+
 WindowManager::WindowManager() : m_title("Default title"), width(800), height(600), m_window(nullptr) {}
 
 void WindowManager::init() {

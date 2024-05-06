@@ -9,7 +9,8 @@ class VulkanInstance {
     void init();
     void clean();
 
-    VkInstance instance = nullptr;     // Vulkan instance
    private:
+    VkInstance instance;     // Vulkan instance
+    VkResult result;     // Vulkan instance
     void create_instance();  // Declaration as a private member method
 };

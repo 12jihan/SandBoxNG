@@ -36,7 +36,7 @@ void VulkanInstance::create_instance() {
 
     create_info.enabledLayerCount = 0;
 
-    VkResult result = vkCreateInstance(&create_info, nullptr, &instance);
+    result = vkCreateInstance(&create_info, nullptr, &instance);
     if (result != VK_SUCCESS) {
         std::cerr << "Failed to create Vulkan instance: " << result << std::endl;
     }
