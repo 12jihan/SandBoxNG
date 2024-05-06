@@ -4,8 +4,6 @@
 
 #include "./includes/WindowManager.hpp"
 
-// Game::Game() {}
-
 void Game::run() {
     std::cout << "Game Running..." << std::endl;
     init();
