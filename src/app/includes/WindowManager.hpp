@@ -5,7 +5,8 @@
 
 class WindowManager {
    public:
-    WindowManager(std::string title, int width, int height);
+    WindowManager();
+
     int get_width();
     int get_height();
     void init();

@@ -1,6 +1,6 @@
 #include "./includes/WindowManager.hpp"
 
-WindowManager::WindowManager(std::string title, int width, int height) : m_title("Default title"), width(800), height(600), m_window(nullptr) {}
+WindowManager::WindowManager() : m_title("Default title"), width(800), height(600), m_window(nullptr) {}
 
 void WindowManager::init() {
     std::cout << "WindowManager initializing..." << std::endl;
@@ -8,17 +8,22 @@ void WindowManager::init() {
         std::cerr << "Could not initialize glfw window";
         std::exit(EXIT_FAILURE);
     }
-    window_hints();
-    create_window(m_title, width, height);
-    context_current(m_window);
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    m_window = glfwCreateWindow(width, height, "stuff", nullptr, nullptr);
+    if (m_window == nullptr)
+        throw std::runtime_error("Trouble creating GLFW window");
+    glfwMakeContextCurrent(m_window);
+    // window_hints();
+    // create_window(m_title, width, height);
+    // context_current(m_window);
 }
 
 void WindowManager::create_window(std::string title, int width, int height) {
-    std::cout << "Window addr: " << &m_window << std::endl;
-    m_window = glfwCreateWindow(width, height, "looooool", NULL, NULL);
-    if (!glfwInit())
-        throw std::runtime_error("GLFW failed to initialize.");
-    glfwMakeContextCurrent(m_window);
+    m_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+    if (m_window == nullptr)
+        throw std::runtime_error("Trouble creating GLFW window");
 }
 
 void WindowManager::context_current(GLFWwindow* win) {

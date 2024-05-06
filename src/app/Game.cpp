@@ -4,6 +4,8 @@
 
 #include "./includes/WindowManager.hpp"
 
+// Game::Game() {}
+
 void Game::run() {
     std::cout << "Game Running..." << std::endl;
     init();
@@ -12,16 +14,16 @@ void Game::run() {
 }
 
 void Game::init() {
-    window->init();
+    window.init();
 }
 
 void Game::loop() {
-    while (!glfwWindowShouldClose(window->get_window())) {
+    while (!glfwWindowShouldClose(window.get_window())) {
         std::cout << "Game Looping..." << std::endl;
-        window->poll_events();
+        window.poll_events();
     }
 }
 
 void Game::clean() {
-    window->clean();
+    window.clean();
 }

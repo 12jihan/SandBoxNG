@@ -5,11 +5,12 @@
 
 class Game {
    public:
+    // Game();
     void run();
     void init();
     void loop();
     void clean();
 
    private:
-    WindowManager *window;
+    WindowManager window;
 };
