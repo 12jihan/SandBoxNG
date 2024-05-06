@@ -7,6 +7,12 @@
 },
 {
   "directory": "/Users/jareemhoff/dev/cpp/sandbox/build",
+  "command": "/usr/bin/clang++ -I/usr/local/include -I/Users/jareemhoff/dev/cpp/sandbox/include -isystem /opt/homebrew/include -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -o CMakeFiles/sandbox.dir/src/app/VulkanInstance.cpp.o -c /Users/jareemhoff/dev/cpp/sandbox/src/app/VulkanInstance.cpp",
+  "file": "/Users/jareemhoff/dev/cpp/sandbox/src/app/VulkanInstance.cpp",
+  "output": "CMakeFiles/sandbox.dir/src/app/VulkanInstance.cpp.o"
+},
+{
+  "directory": "/Users/jareemhoff/dev/cpp/sandbox/build",
   "command": "/usr/bin/clang++ -I/usr/local/include -I/Users/jareemhoff/dev/cpp/sandbox/include -isystem /opt/homebrew/include -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -o CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o -c /Users/jareemhoff/dev/cpp/sandbox/src/app/WindowManager.cpp",
   "file": "/Users/jareemhoff/dev/cpp/sandbox/src/app/WindowManager.cpp",
   "output": "CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o"

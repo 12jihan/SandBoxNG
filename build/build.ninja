@@ -56,6 +56,13 @@ build CMakeFiles/sandbox.dir/src/app/Game.cpp.o: CXX_COMPILER__sandbox_unscanned
   OBJECT_DIR = CMakeFiles/sandbox.dir
   OBJECT_FILE_DIR = CMakeFiles/sandbox.dir/src/app
 
+build CMakeFiles/sandbox.dir/src/app/VulkanInstance.cpp.o: CXX_COMPILER__sandbox_unscanned_Debug /Users/jareemhoff/dev/cpp/sandbox/src/app/VulkanInstance.cpp || cmake_object_order_depends_target_sandbox
+  DEP_FILE = CMakeFiles/sandbox.dir/src/app/VulkanInstance.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
+  INCLUDES = -I/usr/local/include -I/Users/jareemhoff/dev/cpp/sandbox/include -isystem /opt/homebrew/include
+  OBJECT_DIR = CMakeFiles/sandbox.dir
+  OBJECT_FILE_DIR = CMakeFiles/sandbox.dir/src/app
+
 build CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o: CXX_COMPILER__sandbox_unscanned_Debug /Users/jareemhoff/dev/cpp/sandbox/src/app/WindowManager.cpp || cmake_object_order_depends_target_sandbox
   DEP_FILE = CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
@@ -78,7 +85,7 @@ build CMakeFiles/sandbox.dir/src/app/main.cpp.o: CXX_COMPILER__sandbox_unscanned
 #############################################
 # Link the executable sandbox
 
-build sandbox: CXX_EXECUTABLE_LINKER__sandbox_Debug CMakeFiles/sandbox.dir/src/app/Game.cpp.o CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o CMakeFiles/sandbox.dir/src/app/main.cpp.o | /usr/local/lib/libvulkan.dylib /opt/homebrew/lib/libglfw.3.4.dylib
+build sandbox: CXX_EXECUTABLE_LINKER__sandbox_Debug CMakeFiles/sandbox.dir/src/app/Game.cpp.o CMakeFiles/sandbox.dir/src/app/VulkanInstance.cpp.o CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o CMakeFiles/sandbox.dir/src/app/main.cpp.o | /usr/local/lib/libvulkan.dylib /opt/homebrew/lib/libglfw.3.4.dylib
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
   LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib -Wl,-rpath,/opt/homebrew/lib  /usr/local/lib/libvulkan.dylib  /opt/homebrew/lib/libglfw.3.4.dylib
   OBJECT_DIR = CMakeFiles/sandbox.dir
