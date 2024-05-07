@@ -10,7 +10,10 @@ class VulkanInstance {
     void clean();
 
    private:
-    VkInstance instance;     // Vulkan instance
-    VkResult result;     // Vulkan instance
-    void create_instance();  // Declaration as a private member method
+    VkInstance instance;
+    const std::vector<const char*> validation_layers = {"VK_LAYER_KHRONOS_validation"};
+    void create_instance();
+    void create_info(VkApplicationInfo& app_info);
+    bool check_ext_support();
+    bool check_validation_layer();
 };

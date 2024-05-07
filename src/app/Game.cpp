@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "./includes/WindowManager.hpp"
+#include "./includes/VulkanInstance.hpp"
 
 void Game::run() {
     std::cout << "Game Running..." << std::endl;
@@ -13,6 +14,7 @@ void Game::run() {
 
 void Game::init() {
     window.init();
+    vk_instance.init();
 }
 
 void Game::loop() {

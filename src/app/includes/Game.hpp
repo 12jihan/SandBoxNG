@@ -12,4 +12,5 @@ class Game {
 
    private:
     WindowManager window;
+    VulkanInstance vk_instance;
 };
