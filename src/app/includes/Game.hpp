@@ -1,6 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 
+#include "./VulkanInstance.hpp"
 #include "./WindowManager.hpp"
 
 class Game {

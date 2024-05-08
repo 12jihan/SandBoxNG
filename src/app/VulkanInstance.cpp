@@ -13,13 +13,8 @@ const bool enableValidationLayers = true;
 #endif
 
 void VulkanInstance::init() {
-    create_instance();
     check_ext_support();
-}
-
-void VulkanInstance::clean() {
-    std::cout << "Cleaning up Vulkan instance" << std::endl;
-    vkDestroyInstance(instance, nullptr);
+    create_instance();
 }
 
 void VulkanInstance::create_instance() {
@@ -44,31 +39,48 @@ void VulkanInstance::create_instance() {
     create_info.enabledExtensionCount = glfw_ext_count;
     create_info.ppEnabledExtensionNames = glfw_exts;
 
-    // Enabled layers and instance creation
+    // Compatibility required extensions
     create_info.enabledLayerCount = 0;
-    VkResult result = vkCreateInstance(&create_info, nullptr, &instance);
-    if (result != VK_SUCCESS) {
-        throw std::runtime_error("failed to create instance!");
-    }
-
-    // Compatibility required extensions?
     std::vector<const char*> req_exts;
+    std::cout << "Required Extension: " << std::endl;
     for (uint32_t i = 0; i < glfw_ext_count; i++) {
         req_exts.emplace_back(glfw_exts[i]);
-        std::cout << "Required Extension: " << req_exts[i] << std::endl;
+        std::cout << "\t- " << req_exts[i] << std::endl;
     }
 
+    // Setting up extensions for macos compatibility
     req_exts.emplace_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
     create_info.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
     create_info.enabledExtensionCount = (uint32_t)req_exts.size();
     create_info.ppEnabledExtensionNames = req_exts.data();
+
+    VkResult result = vkCreateInstance(&create_info, nullptr, &instance);
     if (result != VK_SUCCESS) {
-        throw std::runtime_error("failed to create extension");
+        throw std::runtime_error("failed to create instance!\n\t- Error Code: " + std::to_string(result));
+    } else {
+        std::cout << "Instance Created:\n\t- Code: " + std::to_string(result) << std::endl;
     }
 }
 
-void VulkanInstance::check_ext_supported() {
+void VulkanInstance::clean() {
+    std::cout << "Cleaning up Vulkan instance" << std::endl;
+    vkDestroyInstance(instance, nullptr);
+}
 
+void VulkanInstance::check_ext_support() {
+    // Enumeration for the amount of extensions available
+    uint32_t extension_count = 0;
+    vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, nullptr);
+
+    // Create a vector to hold the extension types and queries the extensions
+    std::vector<VkExtensionProperties> extensions(extension_count);
+    vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, extensions.data());
+
+    // Output the available extensions
+    std::cout << "Available Extensions:\n";
+    for (const auto& extension : extensions) {
+        std::cout << "\t - " << extension.extensionName << "\n";
+    }
 }
 
 void VulkanInstance::create_info(VkApplicationInfo& app_info) {

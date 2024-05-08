@@ -1,8 +1,10 @@
 # ninja log v5
 6	222	1714766431747647983	CMakeFiles/sandbox.dir/main.cpp.o	6acc65f2c48d483a
-6	661	1715025806019227258	CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o	c7db811c5e3e4dd4
-4	220	1714979178235030315	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
-667	811	1715025806170416258	sandbox	64c06027b57d5ee5
+5	675	1715172733150783002	CMakeFiles/sandbox.dir/src/app/WindowManager.cpp.o	c7db811c5e3e4dd4
+5	677	1715172733155503862	CMakeFiles/sandbox.dir/src/app/main.cpp.o	ad0f27530a818a56
+640	770	1715172819583736135	sandbox	64c06027b57d5ee5
 1	4	0	clean	1f0117926fe85a19
-4	219	1714979178234513770	CMakeFiles/sandbox.dir/src/app/Game.cpp.o	a74f7fc79e90fb88
-5	667	1715025806026804941	CMakeFiles/sandbox.dir/src/app/VulkanInstance.cpp.o	30f75d121d1e6235
+5	674	1715172733150782210	CMakeFiles/sandbox.dir/src/app/Game.cpp.o	a74f7fc79e90fb88
+5	640	1715172819452845924	CMakeFiles/sandbox.dir/src/app/VulkanInstance.cpp.o	30f75d121d1e6235
+4	396	1715172898340417084	CMakeFiles/sandbox.dir/src/app/VulkanInstance.cpp.o	30f75d121d1e6235
+396	528	1715172898472253832	sandbox	64c06027b57d5ee5

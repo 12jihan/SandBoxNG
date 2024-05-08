@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "./includes/WindowManager.hpp"
 #include "./includes/VulkanInstance.hpp"
+#include "./includes/WindowManager.hpp"
 
 void Game::run() {
     std::cout << "Game Running..." << std::endl;
@@ -19,11 +19,11 @@ void Game::init() {
 
 void Game::loop() {
     while (!glfwWindowShouldClose(window.get_window())) {
-        std::cout << "Game Looping..." << std::endl;
         window.poll_events();
     }
 }
 
 void Game::clean() {
+    vk_instance.clean();
     window.clean();
 }

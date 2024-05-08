@@ -2,6 +2,7 @@
 #include <vulkan/vulkan.h>
 
 #include <iostream>
+#include <vector>
 
 class VulkanInstance {
    public:
@@ -14,6 +15,6 @@ class VulkanInstance {
     const std::vector<const char*> validation_layers = {"VK_LAYER_KHRONOS_validation"};
     void create_instance();
     void create_info(VkApplicationInfo& app_info);
-    bool check_ext_support();
     bool check_validation_layer();
+    void check_ext_support();
 };
