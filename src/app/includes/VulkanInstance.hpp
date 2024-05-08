@@ -16,5 +16,6 @@ class VulkanInstance {
     void create_instance();
     void create_info(VkApplicationInfo& app_info);
     bool check_validation_layer();
+    void check_req_ext_support();
     void check_ext_support();
 };

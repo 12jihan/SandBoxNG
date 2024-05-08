@@ -67,6 +67,8 @@ void VulkanInstance::clean() {
     vkDestroyInstance(instance, nullptr);
 }
 
+void VulkanInstance::check_req_ext_support() {}
+
 void VulkanInstance::check_ext_support() {
     // Enumeration for the amount of extensions available
     uint32_t extension_count = 0;
