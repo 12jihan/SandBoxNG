@@ -17,7 +17,6 @@ bool VulkanValidation::check_validation_support() {
     vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
 
     std::cout << "Layer count: " << layer_count << std::endl;
-    std::cout << "Layer count:\n\t " << available_layers.data() << std::endl;
 
     for (const char* layer_name : validation_layers) {
         bool layer_found = false;

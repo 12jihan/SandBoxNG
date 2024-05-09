@@ -20,51 +20,16 @@ void VulkanInstance::init() {
 
 void VulkanInstance::create_instance() {
     // Create application information
-    _app_info();
-    // Create Instance information
-    _create_info(app_info);
-
-    result = vkCreateInstance(&create_info, nullptr, &instance);
-    if (result != VK_SUCCESS) {
-        throw std::runtime_error("failed to create instance!\n\t- Error Code: " + std::to_string(result));
-    } else {
-        std::cout << "Instance Created:\n\t- Code: " + std::to_string(result) + "\n";
-    }
-}
-
-void VulkanInstance::clean() {
-    std::cout << "Cleaning up Vulkan instance\n";
-    vkDestroyInstance(instance, nullptr);
-}
-
-void VulkanInstance::check_req_ext_support() {}
-
-void VulkanInstance::check_ext_support() {
-    // Enumeration for the amount of extensions available
-    uint32_t extension_count = 0;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, nullptr);
-
-    // Create a vector to hold the extension types and queries the extensions
-    std::vector<VkExtensionProperties> extensions(extension_count);
-    vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, extensions.data());
-
-    // Output the available extensions
-    std::cout << "Available Extensions:\n";
-    for (const auto& extension : extensions) {
-        std::cout << "\t - " << extension.extensionName << "\n";
-    }
-}
-
-void VulkanInstance::_app_info() {
+    // VkApplicationInfo app_info{};
     app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     app_info.pApplicationName = "SandboxNG";
     app_info.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
     app_info.pEngineName = "Sandbox_NG_VK";
     app_info.engineVersion = VK_MAKE_VERSION(1, 0, 0);
     app_info.apiVersion = VK_API_VERSION_1_0;
-}
 
-void VulkanInstance::_create_info(VkApplicationInfo& app_info) {
+    // Create Instance information
+    // VkInstanceCreateInfo create_info{};
     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     create_info.pApplicationInfo = &app_info;
 
@@ -89,4 +54,46 @@ void VulkanInstance::_create_info(VkApplicationInfo& app_info) {
     create_info.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
     create_info.enabledExtensionCount = (uint32_t)req_exts.size();
     create_info.ppEnabledExtensionNames = req_exts.data();
+
+    result = vkCreateInstance(&create_info, nullptr, &instance);
+    if (result != VK_SUCCESS) {
+        throw std::runtime_error("failed to create instance!\n\t- Error Code: " + std::to_string(result));
+    } else {
+        std::cout << "Instance Created:\n\t- Code: " + std::to_string(result) + "\n";
+    }
+}
+
+void VulkanInstance::clean() {
+    std::cout << "Cleaning up Vulkan instance\n";
+    vkDestroyInstance(instance, nullptr);
+}
+
+void VulkanInstance::check_ext_support() {
+    // Enumeration for the amount of extensions available
+    uint32_t extension_count = 0;
+    vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, nullptr);
+
+    // Create a vector to hold the extension types and queries the extensions
+    std::vector<VkExtensionProperties> extensions(extension_count);
+    vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, extensions.data());
+
+    // Output the available extensions
+    std::cout << "Available Extensions:\n";
+    for (const auto& extension : extensions) {
+        std::cout << "\t - " << extension.extensionName << "\n";
+    }
+}
+
+void VulkanInstance::_app_info() {
+    // Create application information
+    VkApplicationInfo app_info{};
+    app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    app_info.pApplicationName = "SandboxNG";
+    app_info.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+    app_info.pEngineName = "Sandbox_NG_VK";
+    app_info.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+    app_info.apiVersion = VK_API_VERSION_1_0;
+}
+
+void VulkanInstance::_create_info() {
 }
