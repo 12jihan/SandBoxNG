@@ -16,7 +16,7 @@ void Game::run() {
 void Game::init() {
     window.init();
     vk_instance.init();
-    vk_instance.init();
+    vk_validation.init();
 }
 
 void Game::loop() {
