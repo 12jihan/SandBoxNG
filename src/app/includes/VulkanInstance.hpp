@@ -11,9 +11,14 @@ class VulkanInstance {
     void clean();
 
    private:
+    VkResult result;
     VkInstance instance;
+    VkApplicationInfo app_info{};
+    VkInstanceCreateInfo create_info{};
+
     void create_instance();
-    void create_info(VkApplicationInfo& app_info);
+    void _app_info();
+    void _create_info(VkApplicationInfo& app_info);
     bool check_validation_layer();
     void check_req_ext_support();
     void check_ext_support();

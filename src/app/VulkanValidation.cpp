@@ -6,7 +6,7 @@
 #include <vector>
 
 void VulkanValidation::init() {
-    bool check_validation_support();
+    check_validation_support();
 }
 
 bool VulkanValidation::check_validation_support() {
