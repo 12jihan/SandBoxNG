@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "./includes/VulkanInstance.hpp"
+#include "./includes/VulkanValidation.hpp"
 #include "./includes/WindowManager.hpp"
 
 void Game::run() {
@@ -14,6 +15,7 @@ void Game::run() {
 
 void Game::init() {
     window.init();
+    vk_instance.init();
     vk_instance.init();
 }
 

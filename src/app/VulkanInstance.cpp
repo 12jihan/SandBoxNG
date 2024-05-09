@@ -13,6 +13,7 @@ const bool enableValidationLayers = true;
 #endif
 
 void VulkanInstance::init() {
+    std::cout << "~~~~~~ Vulkan Instance Being Created ~~~~~~" << std::endl;
     check_ext_support();
     create_instance();
 }
@@ -42,10 +43,10 @@ void VulkanInstance::create_instance() {
     // Compatibility required extensions
     create_info.enabledLayerCount = 0;
     std::vector<const char*> req_exts;
-    std::cout << "Required Extension: " << std::endl;
+    std::cout << "Required Extension:" << std::endl;
     for (uint32_t i = 0; i < glfw_ext_count; i++) {
         req_exts.emplace_back(glfw_exts[i]);
-        std::cout << "\t- " << req_exts[i] << std::endl;
+        std::cout << "\n\t- " << req_exts[i];
     }
 
     // Setting up extensions for macos compatibility
@@ -58,12 +59,12 @@ void VulkanInstance::create_instance() {
     if (result != VK_SUCCESS) {
         throw std::runtime_error("failed to create instance!\n\t- Error Code: " + std::to_string(result));
     } else {
-        std::cout << "Instance Created:\n\t- Code: " + std::to_string(result) << std::endl;
+        std::cout << "Instance Created:\n\t- Code: " + std::to_string(result) + "\n";
     }
 }
 
 void VulkanInstance::clean() {
-    std::cout << "Cleaning up Vulkan instance" << std::endl;
+    std::cout << "Cleaning up Vulkan instance\n";
     vkDestroyInstance(instance, nullptr);
 }
 
@@ -90,26 +91,3 @@ void VulkanInstance::create_info(VkApplicationInfo& app_info) {
     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     create_info.pApplicationInfo = &app_info;
 }
-
-bool check_validation_layer() {
-    uint32_t layer_count;
-    vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
-
-    std::vector<VkLayerProperties> available_layers(layer_count);
-    vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
-
-    // for (const char* layer_name : validation_layers) {
-    //     bool layerFound = false;
-
-    //     for (const auto& layer_props : available_layers) {
-    //         if (strcmp(layer_name, layer_props.layerName) == 0) {
-    //             layerFound = true;
-    //             break;
-    //         }
-    //     }
-    //     if (!layerFound) {
-    //         return false;
-    //     }
-    // }
-    return true;
-};
