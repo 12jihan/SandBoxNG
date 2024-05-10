@@ -1,4 +1,4 @@
-#include "./includes/VulkanInstance.hpp"
+#include "./includes/VulkanManager.hpp"
 
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
@@ -12,24 +12,25 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
-void VulkanInstance::init() {
+void VulkanManager::init() {
     std::cout << "~~~~~~ Vulkan Instance Being Created ~~~~~~" << std::endl;
     check_ext_support();
     create_instance();
+    check_validation_support();
 }
 
-void VulkanInstance::create_instance() {
+void VulkanManager::create_instance() {
     _app_info();
     // Create Instance information
     _create_info();
 }
 
-void VulkanInstance::clean() {
+void VulkanManager::clean() {
     std::cout << "Cleaning up Vulkan instance\n";
     vkDestroyInstance(instance, nullptr);
 }
 
-static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
+static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debug_callback(
     VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
     VkDebugUtilsMessageTypeFlagsEXT messageType,
     const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
@@ -40,7 +41,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
     return VK_FALSE;  // VK_FALSE indicates that the Vulkan call that triggered the validation layer message should not be aborted.
 }
 
-void VulkanInstance::debug_messenger_callback() {
+void VulkanManager::debug_messenger_callback() {
     VkDebugUtilsMessengerCreateInfoEXT create_info{};
     create_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
     create_info.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
@@ -53,7 +54,7 @@ void VulkanInstance::debug_messenger_callback() {
     }
 }
 
-void VulkanInstance::check_ext_support() {
+void VulkanManager::check_ext_support() {
     // Enumeration for the amount of extensions available
     uint32_t extension_count = 0;
     vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, nullptr);
@@ -69,7 +70,7 @@ void VulkanInstance::check_ext_support() {
     }
 }
 
-void VulkanInstance::_app_info() {
+void VulkanManager::_app_info() {
     // Create application information
     // VkApplicationInfo app_info{};
     app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -80,7 +81,7 @@ void VulkanInstance::_app_info() {
     app_info.apiVersion = VK_API_VERSION_1_0;
 }
 
-void VulkanInstance::_create_info() {
+void VulkanManager::_create_info() {
     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     create_info.pApplicationInfo = &app_info;
 
@@ -112,4 +113,31 @@ void VulkanInstance::_create_info() {
     } else {
         std::cout << "Instance Created:\n\t- Code: " + std::to_string(result) + "\n";
     }
+}
+
+bool VulkanManager::check_validation_support() {
+    uint32_t layer_count;
+    vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
+
+    std::vector<VkLayerProperties> available_layers(layer_count);
+    vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
+
+    std::cout << "Layer count: " << layer_count << std::endl;
+
+    for (const char* layer_name : validation_layers) {
+        bool layer_found = false;
+
+        for (const auto& layer_props : available_layers) {
+            if (strcmp(layer_name, layer_props.layerName) == 0) {
+                layer_found = true;
+                break;
+            }
+        }
+
+        if (!layer_found) {
+            return false;
+        }
+    }
+
+    return true;
 }
