@@ -21,13 +21,36 @@ void VulkanInstance::init() {
 void VulkanInstance::create_instance() {
     _app_info();
     // Create Instance information
-    // VkInstanceCreateInfo create_info{};
     _create_info();
 }
 
 void VulkanInstance::clean() {
     std::cout << "Cleaning up Vulkan instance\n";
     vkDestroyInstance(instance, nullptr);
+}
+
+static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
+    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+    VkDebugUtilsMessageTypeFlagsEXT messageType,
+    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+    void* pUserData) {
+    // Customize the message output as needed
+    std::cerr << "Validation layer: " << pCallbackData->pMessage << std::endl;
+
+    return VK_FALSE;  // VK_FALSE indicates that the Vulkan call that triggered the validation layer message should not be aborted.
+}
+
+void VulkanInstance::debug_messenger_callback() {
+    VkDebugUtilsMessengerCreateInfoEXT create_info{};
+    create_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+    create_info.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+    create_info.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+    create_info.pfnUserCallback = debug_callback;
+    create_info.pUserData = nullptr;
+
+    if (vkCreateDebugUtilsMessengerEXT(instance, &create_info, nullptr, &debug_messenger_callback) != VK_SUCCESS) {
+        throw std::runtime_error("failed to set up debug messenger!");
+    }
 }
 
 void VulkanInstance::check_ext_support() {
