@@ -30,30 +30,6 @@ void VulkanManager::clean() {
     vkDestroyInstance(instance, nullptr);
 }
 
-static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debug_callback(
-    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-    VkDebugUtilsMessageTypeFlagsEXT messageType,
-    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-    void* pUserData) {
-    // Customize the message output as needed
-    std::cerr << "Validation layer: " << pCallbackData->pMessage << std::endl;
-
-    return VK_FALSE;  // VK_FALSE indicates that the Vulkan call that triggered the validation layer message should not be aborted.
-}
-
-void VulkanManager::debug_messenger_callback() {
-    VkDebugUtilsMessengerCreateInfoEXT create_info{};
-    create_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    create_info.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-    create_info.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-    create_info.pfnUserCallback = debug_callback;
-    create_info.pUserData = nullptr;
-
-    if (vkCreateDebugUtilsMessengerEXT(instance, &create_info, nullptr, &debug_messenger_callback) != VK_SUCCESS) {
-        throw std::runtime_error("failed to set up debug messenger!");
-    }
-}
-
 void VulkanManager::check_ext_support() {
     // Enumeration for the amount of extensions available
     uint32_t extension_count = 0;
