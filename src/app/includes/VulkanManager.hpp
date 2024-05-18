@@ -10,6 +10,7 @@ class VulkanManager {
     void clean();
 
    private:
+    const std::vector<const char*> validation_layers = {"VK_LAYER_KHRONOS_validation"};
     VkResult result = VK_SUCCESS;
     VkInstance instance;
     VkApplicationInfo app_info;
@@ -21,6 +22,6 @@ class VulkanManager {
     void _app_info();
     void _create_info();
     void check_ext_support();
-    bool check_validation_layer();
-    bool check_validation_support();
+    bool check_validation_layer_support();
+    bool verify_ext_support();
 };

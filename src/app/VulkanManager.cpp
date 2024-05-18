@@ -12,14 +12,19 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
+// const std::vector<const char*> validation_layers = {"VK_LAYER_KHRONOS_validation"};
+
 void VulkanManager::init() {
     std::cout << "~~~~~~ Vulkan Instance Being Created ~~~~~~" << std::endl;
     check_ext_support();
+    check_validation_layer_support();
     create_instance();
-    check_validation_support();
 }
 
 void VulkanManager::create_instance() {
+    if (!check_validation_layer_support()) {
+        throw new std::runtime_error("Validation layers requested, but not available!");
+    }
     _app_info();
     // Create Instance information
     _create_info();
@@ -48,7 +53,6 @@ void VulkanManager::check_ext_support() {
 
 void VulkanManager::_app_info() {
     // Create application information
-    // VkApplicationInfo app_info{};
     app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     app_info.pApplicationName = "SandboxNG";
     app_info.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
@@ -91,19 +95,20 @@ void VulkanManager::_create_info() {
     }
 }
 
-bool VulkanManager::check_validation_support() {
+bool VulkanManager::check_validation_layer_support() {
+    // Enumerate layer count
     uint32_t layer_count;
     vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
 
-    std::vector<VkLayerProperties> available_layers(layer_count);
-    vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
-
-    std::cout << "Layer count: " << layer_count << std::endl;
+    // Enumerate available layers
+    std::vector<VkLayerProperties> avail_layers(layer_count);
+    vkEnumerateInstanceLayerProperties(&layer_count, avail_layers.data());
 
     for (const char* layer_name : validation_layers) {
         bool layer_found = false;
 
-        for (const auto& layer_props : available_layers) {
+        for (const auto& layer_props : avail_layers) {
+            std::cout << "Layer: " << layer_props.layerName << std::endl;
             if (strcmp(layer_name, layer_props.layerName) == 0) {
                 layer_found = true;
                 break;
@@ -114,6 +119,9 @@ bool VulkanManager::check_validation_support() {
             return false;
         }
     }
+    return false;
+}
 
-    return true;
+bool VulkanManager::verify_ext_support() {
+    return false;
 }

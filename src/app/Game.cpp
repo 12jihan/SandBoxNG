@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "./includes/VulkanInstance.hpp"
+#include "./includes/VulkanManager.hpp"
 #include "./includes/VulkanValidation.hpp"
 #include "./includes/WindowManager.hpp"
 
