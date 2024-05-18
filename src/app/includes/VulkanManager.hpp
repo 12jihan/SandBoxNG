@@ -15,6 +15,7 @@ class VulkanManager {
     VkInstance instance;
     VkApplicationInfo app_info;
     VkInstanceCreateInfo create_info;
+    bool enable_validation_layers = true;
     // std::vector<const char*> validation_layers;
     // std::vector<const char*> req_ext;
 
@@ -24,4 +25,5 @@ class VulkanManager {
     void check_ext_support();
     bool check_validation_layer_support();
     bool verify_ext_support();
+    std::vector<const char*> get_req_extensions();
 };
