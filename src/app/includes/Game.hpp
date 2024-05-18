@@ -2,7 +2,6 @@
 #include <GLFW/glfw3.h>
 
 #include "./VulkanManager.hpp"
-#include "./VulkanValidation.hpp"
 #include "./WindowManager.hpp"
 
 class Game {
@@ -14,6 +13,5 @@ class Game {
 
    private:
     WindowManager window;
-    VulkanManager vk_instance;
-    VulkanValidation vk_validation;
+    VulkanManager vk_manager;
 };

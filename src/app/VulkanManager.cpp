@@ -13,7 +13,6 @@
 // #endif
 
 void VulkanManager::init() {
-    // std::cout << "~~~~~~ Vulkan Instance Being Created ~~~~~~" << std::endl;
     check_ext_support();
     check_validation_layer_support();
     create_instance();
@@ -42,12 +41,6 @@ void VulkanManager::check_ext_support() {
     // Create a vector to hold the extension types and queries the extensions
     std::vector<VkExtensionProperties> extensions(extension_count);
     vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, extensions.data());
-
-    // Output the available extensions
-    // std::cout << "Available Extensions:\n";
-    // for (const auto& extension : extensions) {
-    //     std::cout << "\t - " << extension.extensionName << "\n";
-    // }
 }
 
 void VulkanManager::_app_info() {
@@ -74,10 +67,9 @@ void VulkanManager::_create_info() {
     // Compatibility required extensions
     create_info.enabledLayerCount = 0;
     std::vector<const char*> req_exts;
-    // std::cout << "Required Extension:" << std::endl;
+
     for (uint32_t i = 0; i < glfw_ext_count; i++) {
         req_exts.emplace_back(glfw_exts[i]);
-        // std::cout << "\n\t- " << req_exts[i];
     }
 
     // Setting up extensions for macos compatibility
@@ -89,8 +81,6 @@ void VulkanManager::_create_info() {
     result = vkCreateInstance(&create_info, nullptr, &instance);
     if (result != VK_SUCCESS) {
         throw std::runtime_error("failed to create instance!\n\t- Error Code: " + std::to_string(result));
-    } else {
-        std::cout << "Instance Created:\n\t- Code: " + std::to_string(result) + "\n";
     }
 }
 

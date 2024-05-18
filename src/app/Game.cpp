@@ -3,11 +3,9 @@
 #include <iostream>
 
 #include "./includes/VulkanManager.hpp"
-#include "./includes/VulkanValidation.hpp"
 #include "./includes/WindowManager.hpp"
 
 void Game::run() {
-    std::cout << "Game Running..." << std::endl;
     init();
     loop();
     clean();
@@ -15,8 +13,7 @@ void Game::run() {
 
 void Game::init() {
     window.init();
-    vk_instance.init();
-    vk_validation.init();
+    vk_manager.init();
 }
 
 void Game::loop() {
@@ -26,6 +23,6 @@ void Game::loop() {
 }
 
 void Game::clean() {
-    vk_instance.clean();
+    vk_manager.clean();
     window.clean();
 }
