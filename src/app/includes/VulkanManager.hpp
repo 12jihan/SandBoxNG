@@ -11,6 +11,7 @@ class VulkanManager {
 
    private:
     const std::vector<const char*> validation_layers = {"VK_LAYER_KHRONOS_validation"};
+    VkPhysicalDevice physical_device = VK_NULL_HANDLE;
     VkResult result = VK_SUCCESS;
     VkInstance instance;
     VkDebugUtilsMessengerEXT debugMessenger;
@@ -23,9 +24,15 @@ class VulkanManager {
     void _app_info();
     void _create_info();
     void check_ext_support();
+    void setup_debug_msgr();
+    void pick_physical_device();
+
+    int rate_device_suitability(VkPhysicalDevice device);
+    
     bool check_validation_layer_support();
     bool verify_ext_support();
-    void setup_debug_msgr();
+    bool is_device_suitable(VkPhysicalDevice device);
+
     std::vector<const char*> get_req_exts();
 
     void pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEXT& msgr_create_info);
