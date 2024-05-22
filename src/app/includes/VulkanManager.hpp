@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <optional>
 
 class VulkanManager {
    public:
@@ -10,6 +11,10 @@ class VulkanManager {
     void clean();
 
    private:
+    struct QueueFamilyIndices {
+        std::optional<uint32_t> graphicsFamily;
+    };
+
     const std::vector<const char*> validation_layers = {"VK_LAYER_KHRONOS_validation"};
     VkPhysicalDevice physical_device = VK_NULL_HANDLE;
     VkResult result = VK_SUCCESS;
@@ -28,12 +33,14 @@ class VulkanManager {
     void pick_physical_device();
 
     int rate_device_suitability(VkPhysicalDevice device);
-    
+
     bool check_validation_layer_support();
     bool verify_ext_support();
     bool is_device_suitable(VkPhysicalDevice device);
 
     std::vector<const char*> get_req_exts();
+
+    QueueFamilyIndices find_queue_families(VkPhysicalDevice device);
 
     void pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEXT& msgr_create_info);
 

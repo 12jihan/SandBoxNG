@@ -188,21 +188,13 @@ void VulkanManager::pick_physical_device() {
     }
 }
 
-// int VulkanManager::rate_device_suitability(VkPhysicalDevice device) {
-//     int score = 0;
+VulkanManager::QueueFamilyIndices VulkanManager::find_queue_families(VkPhysicalDevice device) {
+    VulkanManager::QueueFamilyIndices indices;
+    uint32_t queue_family_count = 0;
+    vkGetPhysicalDeviceQueueFamilyProperties(physical_device, &queue_family_count, nullptr);
 
-//     // Discrete GPUs have a significant performance advantage
-//     if (device_props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
-//         score += 1000;
-//     }
-
-//     // Maximum possible size of textures affects graphics quality
-//     score += device_props.limits.maxImageDimension2D;
-
-//     // Application can't function without geometry shaders
-//     if (!device_feats.geometryShader) {
-//         return 0;
-//     }
-
-//     return score;
-// }
+    std::vector<VkQueueFamilyProperties> queue_families(queue_family_count);
+    vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, queue_families.data());
+    // Logic to find queue family indices to populate struct with
+    return indices;
+}
