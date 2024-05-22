@@ -161,7 +161,9 @@ void VulkanManager::pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEX
 }
 
 bool VulkanManager::is_device_suitable(VkPhysicalDevice device) {
-    return true;
+    VulkanManager::QueueFamilyIndices indices = find_queue_families(device);
+
+    return indices.is_complete();
 }
 
 void VulkanManager::pick_physical_device() {
@@ -191,10 +193,22 @@ void VulkanManager::pick_physical_device() {
 VulkanManager::QueueFamilyIndices VulkanManager::find_queue_families(VkPhysicalDevice device) {
     VulkanManager::QueueFamilyIndices indices;
     uint32_t queue_family_count = 0;
-    vkGetPhysicalDeviceQueueFamilyProperties(physical_device, &queue_family_count, nullptr);
+    vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, nullptr);
 
     std::vector<VkQueueFamilyProperties> queue_families(queue_family_count);
     vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, queue_families.data());
     // Logic to find queue family indices to populate struct with
+    int i = 0;
+    for (const auto& queue_family : queue_families) {
+        if (queue_family.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+            indices.graphicsFamily = i;
+        }
+
+        if (indices.is_complete()) {
+            break;
+        }
+
+        i++;
+    }
     return indices;
 }

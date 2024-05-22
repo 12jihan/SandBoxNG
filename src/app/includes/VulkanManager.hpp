@@ -2,8 +2,8 @@
 #include <vulkan/vulkan.h>
 
 #include <iostream>
-#include <vector>
 #include <optional>
+#include <vector>
 
 class VulkanManager {
    public:
@@ -13,6 +13,10 @@ class VulkanManager {
    private:
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;
+
+        bool is_complete() {
+            return graphicsFamily.has_value();
+        }
     };
 
     const std::vector<const char*> validation_layers = {"VK_LAYER_KHRONOS_validation"};
