@@ -2,6 +2,7 @@
 
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
+#include <vulkan/vulkan_beta.h>
 
 #include <iostream>
 #include <map>
@@ -21,6 +22,7 @@ void VulkanManager::init() {
     create_instance();
     setup_debug_msgr();
     pick_physical_device();
+    create_logical_device();
 }
 
 void VulkanManager::create_instance() {
@@ -35,6 +37,7 @@ void VulkanManager::create_instance() {
 }
 
 void VulkanManager::clean() {
+    vkDestroyDevice(device, nullptr);
     DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
     vkDestroyInstance(instance, nullptr);
 }
@@ -211,4 +214,47 @@ VulkanManager::QueueFamilyIndices VulkanManager::find_queue_families(VkPhysicalD
         i++;
     }
     return indices;
+}
+
+void VulkanManager::create_logical_device() {
+    QueueFamilyIndices indices = find_queue_families(physical_device);
+
+    // Specifying the queues to be created
+    VkDeviceQueueCreateInfo queue_create_info{};
+    queue_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+    queue_create_info.queueFamilyIndex = indices.graphicsFamily.value();
+    queue_create_info.queueCount = 1;
+
+    // setting the queues priority using floating point numbers
+    float queue_priority = 1.0f;
+    queue_create_info.pQueuePriorities = &queue_priority;
+
+    // specifying the device features
+    VkPhysicalDeviceFeatures device_features{};
+
+    // Create the logical device
+    VkDeviceCreateInfo create_info{};
+    create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+
+    create_info.pQueueCreateInfos = &queue_create_info;
+    create_info.queueCreateInfoCount = 1;
+
+    create_info.pEnabledFeatures = &device_features;
+
+    // const char* device_ext = "VK_KHR_portability_subset";
+    create_info.enabledExtensionCount = 0;
+    // create_info.ppEnabledExtensionNames = &device_ext;
+
+    if (enable_validation_layers) {
+        create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
+        create_info.ppEnabledLayerNames = validation_layers.data();
+    } else {
+        create_info.enabledExtensionCount = 0;
+    }
+
+    if (vkCreateDevice(physical_device, &create_info, nullptr, &device) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create logical device!");
+    }
+
+    vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphics_queue);
 }
