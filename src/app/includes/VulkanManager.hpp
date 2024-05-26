@@ -19,7 +19,7 @@ class VulkanManager {
         }
     };
 
-    const std::vector<const char*> validation_layers = {
+    std::vector<const char*> validation_layers = {
         "VK_LAYER_KHRONOS_validation",
     };
     VkPhysicalDevice physical_device = VK_NULL_HANDLE;

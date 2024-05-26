@@ -70,9 +70,11 @@ void VulkanManager::_create_info() {
     create_info.pApplicationInfo = &app_info;
 
     // Get required extensions
-    uint32_t glfw_ext_count = 0;
+    const char* inst_ext = "VK_KHR_get_physical_device_properties2";
+    uint32_t glfw_ext_count = 1;
     const char** glfw_exts;
     glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
+
     create_info.enabledExtensionCount = glfw_ext_count;
     create_info.ppEnabledExtensionNames = glfw_exts;
 
@@ -241,15 +243,19 @@ void VulkanManager::create_logical_device() {
 
     create_info.pEnabledFeatures = &device_features;
 
-    // const char* device_ext = "VK_KHR_portability_subset";
-    create_info.enabledExtensionCount = 0;
-    // create_info.ppEnabledExtensionNames = &device_ext;
+    std::vector<const char*> _validation_layers = {
+        "VK_KHR_portability_subset",
+    };
+
+    // Device extensions
+    create_info.enabledExtensionCount = 1;
 
     if (enable_validation_layers) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
-        create_info.ppEnabledLayerNames = validation_layers.data();
+        create_info.enabledLayerCount = static_cast<uint32_t>(_validation_layers.size());
+        create_info.ppEnabledLayerNames = _validation_layers.data();
     } else {
         create_info.enabledExtensionCount = 0;
+        create_info.ppEnabledLayerNames = nullptr;
     }
 
     if (vkCreateDevice(physical_device, &create_info, nullptr, &device) != VK_SUCCESS) {
