@@ -16,6 +16,14 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
+struct QueueFamilyIndices {
+    std::optional<uint32_t> graphicsFamily;
+
+    bool is_complete() {
+        return graphicsFamily.has_value();
+    }
+};
+
 void VulkanManager::init() {
     check_ext_support();
     check_validation_layer_support();
@@ -239,10 +247,8 @@ void VulkanManager::create_logical_device() {
     // Create the logical device
     VkDeviceCreateInfo create_info{};
     create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-
     create_info.pQueueCreateInfos = &queue_create_info;
     create_info.queueCreateInfoCount = 1;
-
     create_info.pEnabledFeatures = &device_features;
 
     std::vector<const char*> _validation_layers = {
