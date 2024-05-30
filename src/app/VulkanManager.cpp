@@ -17,8 +17,7 @@ const bool enableValidationLayers = true;
 #endif
 
 const std::vector<const char*> instance_validation_layers = {
-    "VK_LAYER_KHRONOS_validation"
-};
+    "VK_LAYER_KHRONOS_validation"};
 
 void VulkanManager::init() {
     check_ext_support();
@@ -61,10 +60,10 @@ void VulkanManager::_app_info() {
     app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     app_info.pNext = nullptr;
     app_info.pApplicationName = "SandboxNG";
-    app_info.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-    app_info.pEngineName = "Sandbox_NG_VK";
-    app_info.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-    app_info.apiVersion = VK_API_VERSION_1_0;
+    app_info.applicationVersion = VK_MAKE_VERSION(1, 3, 0);
+    app_info.pEngineName = "No Engine";
+    app_info.engineVersion = VK_MAKE_VERSION(1, 3, 0);
+    app_info.apiVersion = VK_API_VERSION_1_3;
 }
 
 void VulkanManager::_create_info() {
