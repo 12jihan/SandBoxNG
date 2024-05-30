@@ -18,10 +18,20 @@ class VulkanManager {
             return graphicsFamily.has_value();
         }
     };
-
-    const std::vector<const char*> validation_layers = {
-        "VK_LAYER_KHRONOS_validation",
+    
+    const std::vector<const char*> instance_extensions = {
+        "VK_KHR_surface",
+        "VK_KHR_portability_subset",
     };
+
+    const std::vector <const char*> device_validation_layers = {
+
+    };
+
+    const std::vector <const char*> device_extensions = {
+
+    };
+
     VkPhysicalDevice physical_device = VK_NULL_HANDLE;
     VkResult result = VK_SUCCESS;
     VkInstance instance;
