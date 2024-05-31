@@ -17,9 +17,26 @@ const bool enableValidationLayers = true;
 #endif
 
 const std::vector<const char*> instance_validation_layers = {
+    "VK_LAYER_KHRONOS_validation"
+    // "VK_KHR_portability_subset",
+};
+
+const std::vector<const char*> instance_extensions = {
+    "VK_KHR_surface",
+    // "VK_KHR_portability_subset",
+};
+
+const std::vector<const char*> device_validation_layers = {
     "VK_LAYER_KHRONOS_validation"};
 
+const std::vector<const char*> device_extensions = {
+    "VK_KHR_surface",
+};
+
 void VulkanManager::init() {
+    u_int32_t test_count = instance_validation_layers.size() + instance_extensions.size();
+    std::cout << "test_count: " << test_count << std::endl;
+
     check_ext_support();
     check_validation_layer_support();
     create_instance();
@@ -53,6 +70,12 @@ void VulkanManager::check_ext_support() {
     // Create a vector to hold the extension types and queries the extensions
     std::vector<VkExtensionProperties> extensions(extension_count);
     vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, extensions.data());
+
+    // Checking for available extensions for the instance
+    std::cout << "Available Extensions for Instance:" << std::endl;
+    for (auto& extension : extensions) {
+        std::cout << "\t- " << extension.extensionName << std::endl;
+    }
 }
 
 void VulkanManager::_app_info() {
@@ -73,13 +96,11 @@ void VulkanManager::_create_info() {
     create_info.pApplicationInfo = &app_info;
 
     // Get required extensions
-    uint32_t glfw_ext_count = 0;
-    const char** glfw_exts;
-    glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
-    create_info.enabledExtensionCount = glfw_ext_count;
-    create_info.ppEnabledExtensionNames = glfw_exts;
+    // uint32_t glfw_ext_count = 0;
+    // const char** glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
 
     auto extensions = get_req_exts();
+    extensions.push_back(VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME);
     create_info.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
     create_info.ppEnabledExtensionNames = extensions.data();
 
@@ -132,22 +153,33 @@ bool VulkanManager::verify_ext_support() {
 }
 
 std::vector<const char*> VulkanManager::get_req_exts() {
+    // create and set list of glfw req extensions
     uint32_t glfw_ext_count = 0;
-    const char** glfw_ext;
-    glfw_ext = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
+    const char** glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
 
-    std::vector<const char*> extensions(glfw_ext, glfw_ext + glfw_ext_count);
+    // Create extensions and add portability
+    std::vector<const char*> extensions = instance_extensions;
     extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
-    for (auto& ext : extensions) {
-        std::cout << ext << std::endl;
-    }
+
+    // Combine GLFW extensions with additional extensions
+    std::vector<const char*> combined_extensions(glfw_exts, glfw_exts + glfw_ext_count);
+    combined_extensions.insert(combined_extensions.end(), extensions.begin(), extensions.end());
 
     // If debugging is enabled, add the debug extension
     if (enable_validation_layers) {
-        extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+        combined_extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     }
 
-    return extensions;
+    // For testing purposes - start
+    std::cout << "\nGetting all required extensions:" << std::endl;
+    std::cout << "----------------------" << std::endl;
+    for (auto& ext : combined_extensions) {
+        std::cout << ext << std::endl;
+    }
+    std::cout << "----------------------" << std::endl;
+    // For testing purposes - end
+
+    return combined_extensions;
 }
 
 void VulkanManager::setup_debug_msgr() {
