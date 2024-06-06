@@ -16,6 +16,22 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
+const std::vector<const char*> instance_val_layers = {
+    "VK_LAYER_KHRONOS_validation",
+};
+
+const std::vector<const char*> instance_exts = {
+
+};
+
+const std::vector<const char*> device_val_layers = {
+
+};
+
+const std::vector<const char*> device_exts = {
+
+};
+
 void VulkanManager::init() {
     check_ext_support();
     check_validation_layer_support();
@@ -87,8 +103,8 @@ void VulkanManager::_create_info() {
     // Compatibility required extensions
     VkDebugUtilsMessengerCreateInfoEXT debug_create_info{};
     if (enable_validation_layers) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
-        create_info.ppEnabledLayerNames = validation_layers.data();
+        create_info.enabledLayerCount = static_cast<uint32_t>(instance_val_layers.size());
+        create_info.ppEnabledLayerNames = instance_val_layers.data();
         pop_debug_msgr_create_info(debug_create_info);
         create_info.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debug_create_info;
     } else {
@@ -111,7 +127,7 @@ bool VulkanManager::check_validation_layer_support() {
     std::vector<VkLayerProperties> avail_layers(layer_count);
     vkEnumerateInstanceLayerProperties(&layer_count, avail_layers.data());
 
-    for (const char* layer_name : validation_layers) {
+    for (const char* layer_name : instance_val_layers) {
         bool layer_found = false;
 
         for (const auto& layer_props : avail_layers) {
@@ -250,8 +266,8 @@ void VulkanManager::create_logical_device() {
     // create_info.ppEnabledExtensionNames = &device_ext;
 
     if (enable_validation_layers) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
-        create_info.ppEnabledLayerNames = validation_layers.data();
+        create_info.enabledLayerCount = static_cast<uint32_t>(instance_val_layers.size());
+        create_info.ppEnabledLayerNames = instance_val_layers.data();
     } else {
         create_info.enabledExtensionCount = 0;
     }
