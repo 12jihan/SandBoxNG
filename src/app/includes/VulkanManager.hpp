@@ -47,6 +47,10 @@ class VulkanManager {
     bool verify_ext_support();
     bool is_device_suitable(VkPhysicalDevice device);
 
+    // std::vector<const char*> get_device_exts();
+    void get_device_exts();
+    void get_device_vals();
+
     std::vector<const char*> get_req_exts();
 
     QueueFamilyIndices find_queue_families(VkPhysicalDevice device);

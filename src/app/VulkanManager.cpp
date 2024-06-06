@@ -25,12 +25,12 @@ const std::vector<const char*> instance_exts = {
 };
 
 const std::vector<const char*> device_val_layers = {
-
+    "VK_LAYER_KHRONOS_validation",
 };
 
 const std::vector<const char*> device_exts = {
-
-};
+    VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME,
+    "VK_KHR_portability_subset"};
 
 void VulkanManager::init() {
     check_ext_support();
@@ -66,6 +66,7 @@ void VulkanManager::check_ext_support() {
     // Create a vector to hold the extension types and queries the extensions
     std::vector<VkExtensionProperties> extensions(extension_count);
     vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, extensions.data());
+    // Testing to see the vectors that are currently available
     // std::cout << "available extensions:\n " << std::endl;
     // for (auto ext : extensions) {
     //     std::cout << "- \t" << ext.extensionName << std::endl;
@@ -90,11 +91,12 @@ void VulkanManager::_create_info() {
     create_info.pApplicationInfo = &app_info;
 
     // Get required extensions
-    uint32_t glfw_ext_count = 0;
-    const char** glfw_exts;
-    glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
-    create_info.enabledExtensionCount = glfw_ext_count;
-    create_info.ppEnabledExtensionNames = glfw_exts;
+    // Don't think I need to get specific glfw extensions here anymore
+    // uint32_t glfw_ext_count = 0;
+    // const char** glfw_exts;
+    // glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
+    // create_info.enabledExtensionCount = glfw_ext_count;
+    // create_info.ppEnabledExtensionNames = glfw_exts;
 
     auto extensions = get_req_exts();
     create_info.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
@@ -150,18 +152,32 @@ bool VulkanManager::verify_ext_support() {
 
 std::vector<const char*> VulkanManager::get_req_exts() {
     uint32_t glfw_ext_count = 0;
-    const char** glfw_ext;
-    glfw_ext = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
+    const char** glfw_exts;
+    glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
 
-    std::vector<const char*> extensions(glfw_ext, glfw_ext + glfw_ext_count);
+    // std::vector<const char*> extensions(glfw_exts, glfw_exts + glfw_ext_count);
+    std::vector<const char*> extensions = instance_exts;
     extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+
+    // Combine GLFW extensions with additional extensions
+    std::vector<const char*> combined_extensions(glfw_exts, glfw_exts + glfw_ext_count);
+    combined_extensions.insert(combined_extensions.end(), extensions.begin(), extensions.end());
 
     // If debugging is enabled, add the debug extension
     if (enable_validation_layers) {
-        extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+        combined_extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     }
 
-    return extensions;
+    // For testing purposes - start
+    std::cout << "\nGetting all required extensions:" << std::endl;
+    std::cout << "----------------------" << std::endl;
+    for (auto& ext : combined_extensions) {
+        std::cout << ext << std::endl;
+    }
+    std::cout << "----------------------" << std::endl;
+    // For testing purposes - end
+
+    return combined_extensions;
 }
 
 void VulkanManager::setup_debug_msgr() {
@@ -265,9 +281,13 @@ void VulkanManager::create_logical_device() {
     create_info.enabledExtensionCount = 0;
     // create_info.ppEnabledExtensionNames = &device_ext;
 
+    // Testing a few things here:
+    get_device_exts();
+    get_device_vals();
+
     if (enable_validation_layers) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(instance_val_layers.size());
-        create_info.ppEnabledLayerNames = instance_val_layers.data();
+        create_info.enabledLayerCount = static_cast<uint32_t>(device_val_layers.size());
+        create_info.ppEnabledLayerNames = device_val_layers.data();
     } else {
         create_info.enabledExtensionCount = 0;
     }
@@ -277,4 +297,32 @@ void VulkanManager::create_logical_device() {
     }
 
     vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphics_queue);
+}
+
+// std::vector<const char*>
+void VulkanManager::get_device_exts() {
+    uint32_t ext_count = 0;
+    vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &ext_count, nullptr);
+
+    std::vector<VkExtensionProperties> avail_exts(ext_count);
+    vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &ext_count, avail_exts.data());
+
+    std::cout << "device ext:" << std::endl;
+    for (auto ext : avail_exts) {
+        std::cout << "-\t" << ext.extensionName << std::endl;
+    }
+    // return avail_exts.data();
+}
+
+void VulkanManager::get_device_vals() {
+    uint32_t layer_count = 0;
+    vkEnumerateDeviceLayerProperties(physical_device, &layer_count, nullptr);
+
+    std::vector<VkLayerProperties> avail_layers(layer_count);
+    vkEnumerateDeviceLayerProperties(physical_device, &layer_count, avail_layers.data());
+
+    std::cout << "device layers:" << std::endl;
+    for (auto layer : avail_layers) {
+        std::cout << "-\t" << layer.layerName << std::endl;
+    }
 }
