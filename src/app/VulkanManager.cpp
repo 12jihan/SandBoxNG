@@ -50,6 +50,10 @@ void VulkanManager::check_ext_support() {
     // Create a vector to hold the extension types and queries the extensions
     std::vector<VkExtensionProperties> extensions(extension_count);
     vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, extensions.data());
+    // std::cout << "available extensions:\n " << std::endl;
+    // for (auto ext : extensions) {
+    //     std::cout << "- \t" << ext.extensionName << std::endl;
+    // }
 }
 
 void VulkanManager::_app_info() {
