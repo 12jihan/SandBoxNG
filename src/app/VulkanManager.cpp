@@ -41,8 +41,8 @@ void VulkanManager::init() {
     check_validation_layer_support();
     create_instance();
     setup_debug_msgr();
-    pick_physical_device();
-    create_logical_device();
+    // pick_physical_device();
+    // create_logical_device();
 }
 
 void VulkanManager::create_instance() {
