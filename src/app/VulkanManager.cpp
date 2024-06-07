@@ -21,16 +21,12 @@ const std::vector<const char*> instance_val_layers = {
 };
 
 const std::vector<const char*> instance_exts = {
-
-};
-
-const std::vector<const char*> device_val_layers = {
-    "VK_LAYER_KHRONOS_validation",
+    VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
 };
 
 const std::vector<const char*> device_exts = {
-    VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME,
-    "VK_KHR_portability_subset"};
+    VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME,
+};
 
 void VulkanManager::init() {
     check_ext_support();
@@ -275,19 +271,20 @@ void VulkanManager::create_logical_device() {
     create_info.pQueueCreateInfos = &queue_create_info;
     create_info.queueCreateInfoCount = 1;
 
+    create_info.enabledExtensionCount = static_cast<uint32_t>(device_exts.size());
+    create_info.ppEnabledExtensionNames = device_exts.data();
+
     create_info.pEnabledFeatures = &device_features;
 
     // const char* device_ext = "VK_KHR_portability_subset";
-    create_info.enabledExtensionCount = 0;
-    // create_info.ppEnabledExtensionNames = &device_ext;
 
     // Testing a few things here:
-    get_device_exts();
-    get_device_vals();
+    // get_device_exts();
+    // get_device_vals();
 
     if (enable_validation_layers) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(device_val_layers.size());
-        create_info.ppEnabledLayerNames = device_val_layers.data();
+        create_info.enabledLayerCount = static_cast<uint32_t>(instance_val_layers.size());
+        create_info.ppEnabledLayerNames = instance_val_layers.data();
     } else {
         create_info.enabledExtensionCount = 0;
     }
@@ -299,19 +296,23 @@ void VulkanManager::create_logical_device() {
     vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphics_queue);
 }
 
-// std::vector<const char*>
+bool VulkanManager::verify_device_ext_support() {
+    return false;
+}
+
 void VulkanManager::get_device_exts() {
-    uint32_t ext_count = 0;
-    vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &ext_count, nullptr);
+    // uint32_t ext_count = 0;
+    // vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &ext_count, nullptr);
 
-    std::vector<VkExtensionProperties> avail_exts(ext_count);
-    vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &ext_count, avail_exts.data());
+    // std::vector<VkExtensionProperties> avail_exts(ext_count);
+    // vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &ext_count, avail_exts.data());
+    // VkExtensionProperties portable_ext = {VK_KHR_portability_subset};
+    // avail_exts.push_back(portable_ext);
 
-    std::cout << "device ext:" << std::endl;
-    for (auto ext : avail_exts) {
-        std::cout << "-\t" << ext.extensionName << std::endl;
-    }
-    // return avail_exts.data();
+    // std::cout << "device ext:" << std::endl;
+    // for (auto ext : avail_exts) {
+    //     std::cout << "-\t" << ext.extensionName << std::endl;
+    // }
 }
 
 void VulkanManager::get_device_vals() {

@@ -45,9 +45,12 @@ class VulkanManager {
 
     bool check_validation_layer_support();
     bool verify_ext_support();
+    bool verify_device_ext_support();
     bool is_device_suitable(VkPhysicalDevice device);
 
-    // std::vector<const char*> get_device_exts();
+    // check if the device supports the required extensions and validation layers
+
+    // Get the device's required extensions and validation layers
     void get_device_exts();
     void get_device_vals();
 
