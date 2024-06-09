@@ -5,7 +5,9 @@
 #include <optional>
 #include <vector>
 
-class VulkanManager {
+#include "./Vk_Instance.hpp"
+
+class Vk_Manager {
    public:
     void init();
     void clean();
@@ -22,12 +24,14 @@ class VulkanManager {
     const std::vector<const char*> validation_layers = {
         "VK_LAYER_KHRONOS_validation",
     };
+    Vk_Instance _inst;
     VkPhysicalDevice physical_device = VK_NULL_HANDLE;
     VkResult result = VK_SUCCESS;
     VkInstance instance;
     VkDebugUtilsMessengerEXT debugMessenger;
     VkQueue graphics_queue;
     VkDevice device;
+    VkSurfaceKHR surface;
 
     VkApplicationInfo app_info;
     VkInstanceCreateInfo create_info;

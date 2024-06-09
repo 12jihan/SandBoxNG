@@ -1,7 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 
-#include "./VulkanManager.hpp"
+#include "./Vk_Manager.hpp"
 #include "./WindowManager.hpp"
 
 class Game {
@@ -13,5 +13,5 @@ class Game {
 
    private:
     WindowManager window;
-    VulkanManager vk_manager;
+    Vk_Manager vk_manager;
 };

@@ -1,4 +1,4 @@
-#include "./includes/VulkanManager.hpp"
+#include "./includes/Vk_Manager.hpp"
 
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
@@ -7,6 +7,8 @@
 #include <iostream>
 #include <map>
 #include <vector>
+
+#include "./includes/Vk_Instance.hpp"
 
 // #define NDEBUG
 
@@ -28,16 +30,17 @@ const std::vector<const char*> device_exts = {
     VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME,
 };
 
-void VulkanManager::init() {
-    check_ext_support();
-    check_validation_layer_support();
-    create_instance();
-    setup_debug_msgr();
-    pick_physical_device();
-    create_logical_device();
+void Vk_Manager::init() {
+    _inst.init();
+    // check_ext_support();
+    // check_validation_layer_support();
+    // create_instance();
+    // setup_debug_msgr();
+    // pick_physical_device();
+    // create_logical_device();
 }
 
-void VulkanManager::create_instance() {
+void Vk_Manager::create_instance() {
     // Check to see if validation layers are available
     if (enable_validation_layers && !check_validation_layer_support()) {
         throw new std::runtime_error("Validation layers requested, but not available!");
@@ -48,13 +51,13 @@ void VulkanManager::create_instance() {
     _create_info();
 }
 
-void VulkanManager::clean() {
+void Vk_Manager::clean() {
     vkDestroyDevice(device, nullptr);
     DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
     vkDestroyInstance(instance, nullptr);
 }
 
-void VulkanManager::check_ext_support() {
+void Vk_Manager::check_ext_support() {
     // Enumeration for the amount of extensions available
     uint32_t extension_count = 0;
     vkEnumerateInstanceExtensionProperties(nullptr, &extension_count, nullptr);
@@ -69,7 +72,7 @@ void VulkanManager::check_ext_support() {
     // }
 }
 
-void VulkanManager::_app_info() {
+void Vk_Manager::_app_info() {
     // Create application information
     app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     app_info.pNext = nullptr;
@@ -80,7 +83,7 @@ void VulkanManager::_app_info() {
     app_info.apiVersion = VK_API_VERSION_1_0;
 }
 
-void VulkanManager::_create_info() {
+void Vk_Manager::_create_info() {
     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     create_info.pNext = nullptr;                                           // Ensure pNext is set to nullptr
     create_info.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;  // Set macOS compatibility flag
@@ -116,7 +119,7 @@ void VulkanManager::_create_info() {
     }
 }
 
-bool VulkanManager::check_validation_layer_support() {
+bool Vk_Manager::check_validation_layer_support() {
     // Enumerate layer count
     uint32_t layer_count;
     vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
@@ -142,11 +145,11 @@ bool VulkanManager::check_validation_layer_support() {
     return true;
 }
 
-bool VulkanManager::verify_ext_support() {
+bool Vk_Manager::verify_ext_support() {
     return false;
 }
 
-std::vector<const char*> VulkanManager::get_req_exts() {
+std::vector<const char*> Vk_Manager::get_req_exts() {
     uint32_t glfw_ext_count = 0;
     const char** glfw_exts;
     glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
@@ -176,7 +179,7 @@ std::vector<const char*> VulkanManager::get_req_exts() {
     return combined_extensions;
 }
 
-void VulkanManager::setup_debug_msgr() {
+void Vk_Manager::setup_debug_msgr() {
     if (!enable_validation_layers) return;
 
     VkDebugUtilsMessengerCreateInfoEXT msgr_create_info{};
@@ -187,7 +190,7 @@ void VulkanManager::setup_debug_msgr() {
     }
 }
 
-void VulkanManager::pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEXT& msgr_create_info) {
+void Vk_Manager::pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEXT& msgr_create_info) {
     msgr_create_info = {};
     msgr_create_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
     msgr_create_info.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
@@ -195,13 +198,13 @@ void VulkanManager::pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEX
     msgr_create_info.pfnUserCallback = debug_callback;
 }
 
-bool VulkanManager::is_device_suitable(VkPhysicalDevice device) {
-    VulkanManager::QueueFamilyIndices indices = find_queue_families(device);
+bool Vk_Manager::is_device_suitable(VkPhysicalDevice device) {
+    Vk_Manager::QueueFamilyIndices indices = find_queue_families(device);
 
     return indices.is_complete();
 }
 
-void VulkanManager::pick_physical_device() {
+void Vk_Manager::pick_physical_device() {
     uint32_t device_count = 0;
     vkEnumeratePhysicalDevices(instance, &device_count, nullptr);
     if (device_count == 0) throw std::runtime_error("failed to find GPUs with Vulkan support!");
@@ -225,8 +228,8 @@ void VulkanManager::pick_physical_device() {
     }
 }
 
-VulkanManager::QueueFamilyIndices VulkanManager::find_queue_families(VkPhysicalDevice device) {
-    VulkanManager::QueueFamilyIndices indices;
+Vk_Manager::QueueFamilyIndices Vk_Manager::find_queue_families(VkPhysicalDevice device) {
+    Vk_Manager::QueueFamilyIndices indices;
     uint32_t queue_family_count = 0;
     vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, nullptr);
 
@@ -248,7 +251,7 @@ VulkanManager::QueueFamilyIndices VulkanManager::find_queue_families(VkPhysicalD
     return indices;
 }
 
-void VulkanManager::create_logical_device() {
+void Vk_Manager::create_logical_device() {
     QueueFamilyIndices indices = find_queue_families(physical_device);
 
     // Specifying the queues to be created
@@ -296,11 +299,11 @@ void VulkanManager::create_logical_device() {
     vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphics_queue);
 }
 
-bool VulkanManager::verify_device_ext_support() {
+bool Vk_Manager::verify_device_ext_support() {
     return false;
 }
 
-void VulkanManager::get_device_exts() {
+void Vk_Manager::get_device_exts() {
     // uint32_t ext_count = 0;
     // vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &ext_count, nullptr);
 
@@ -315,7 +318,7 @@ void VulkanManager::get_device_exts() {
     // }
 }
 
-void VulkanManager::get_device_vals() {
+void Vk_Manager::get_device_vals() {
     uint32_t layer_count = 0;
     vkEnumerateDeviceLayerProperties(physical_device, &layer_count, nullptr);
 

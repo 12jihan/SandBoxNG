@@ -1,6 +1,5 @@
 #include "./includes/WindowManager.hpp"
-
-#include "./includes/VulkanManager.hpp"
+#include "./includes/Vk_Manager.hpp"
 
 WindowManager::WindowManager() : m_title("Default title"), width(800), height(600), m_window(nullptr) {}
 

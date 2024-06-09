@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "./includes/VulkanManager.hpp"
+#include "./includes/Vk_Manager.hpp"
 #include "./includes/WindowManager.hpp"
 
 void Game::run() {
