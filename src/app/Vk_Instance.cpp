@@ -50,6 +50,18 @@ void Vk_Instance::_create_info() {
     create_info.pNext = nullptr;                                           // Ensure pNext is set to nullptr
     create_info.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;  // Set macOS compatibility flag
     create_info.pApplicationInfo = &app_info;
+
+    // Get required exts and enable them:
+    auto _exts = _get_req_exts();
+    create_info.enabledExtensionCount = static_cast<uint32_t>(_exts.size());
+    create_info.ppEnabledExtensionNames = _exts.data();
+
+    VkDebugUtilsMessengerCreateInfoEXT debug_create_info{};
+    if (enable_validation) {
+        create_info.enabledLayerCount = static_cast<uint32_t>(val_layers.size());
+        create_info.ppEnabledLayerNames = val_layers.data();
+        // _pop_debug_msgr_create_info(debug_create_info);
+    }
 }
 
 std::vector<const char*> Vk_Instance::_get_req_exts() {
@@ -67,14 +79,14 @@ std::vector<const char*> Vk_Instance::_get_req_exts() {
     // If debuggin is enabled, add the debug extension
     if (enable_validation) _combined_exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 
-    // For testing purposes - start
+    //** For testing purposes - start
     std::cout << "\nGetting all required extensions:" << std::endl;
     std::cout << "----------------------" << std::endl;
     for (auto& __ext : _combined_exts) {
         std::cout << __ext << std::endl;
     }
     std::cout << "----------------------" << std::endl;
-    // For testing purposes - end
+    //** For testing purposes - end
 
     // Return the vector of extensions
     return _combined_exts;
