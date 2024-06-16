@@ -24,6 +24,7 @@ class Vk_Manager {
     const std::vector<const char*> validation_layers = {
         "VK_LAYER_KHRONOS_validation",
     };
+
     Vk_Instance _inst;
     VkPhysicalDevice physical_device = VK_NULL_HANDLE;
     VkResult result = VK_SUCCESS;
@@ -85,7 +86,7 @@ class Vk_Manager {
         } else {
             return VK_ERROR_EXTENSION_NOT_PRESENT;
         }
-    }
+    };
 
     static void DestroyDebugUtilsMessengerEXT(
         VkInstance instance,

@@ -32,7 +32,7 @@ const std::vector<const char*> device_exts = {
 
 void Vk_Manager::init() {
     _inst.init();
-    // check_ext_support();
+    check_ext_support();
     // check_validation_layer_support();
     // create_instance();
     // setup_debug_msgr();
@@ -113,7 +113,6 @@ void Vk_Manager::_create_info() {
         create_info.pNext = nullptr;
     }
 
-    // result = vkCreateInstance(&create_info, nullptr, &instance);
     if (vkCreateInstance(&create_info, nullptr, &instance) != VK_SUCCESS) {
         throw std::runtime_error("failed to create instance!\n\t- Error Code: " + std::to_string(result));
     }
