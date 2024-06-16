@@ -1,4 +1,5 @@
 #include "./includes/Vk_Manager.hpp"
+#include "./includes/Vk_Debugger.hpp"
 
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
