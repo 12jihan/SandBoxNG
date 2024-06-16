@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "./Vk_Instance.hpp"
+#include "./Vk_debugger.hpp"
 
 class Vk_Manager {
    public:
@@ -13,6 +14,7 @@ class Vk_Manager {
     void clean();
 
    private:
+    Vk_Debugger _debugger;
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;
 

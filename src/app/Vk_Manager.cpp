@@ -107,7 +107,9 @@ void Vk_Manager::_create_info() {
     if (enable_validation_layers) {
         create_info.enabledLayerCount = static_cast<uint32_t>(instance_val_layers.size());
         create_info.ppEnabledLayerNames = instance_val_layers.data();
-        pop_debug_msgr_create_info(debug_create_info);
+        // Added the debugger here as well
+        _debugger.pop_debug_msgr_create_info(debug_create_info);
+        // pop_debug_msgr_create_info(debug_create_info);
         create_info.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debug_create_info;
     } else {
         create_info.enabledLayerCount = 0;
@@ -183,7 +185,9 @@ void Vk_Manager::setup_debug_msgr() {
     if (!enable_validation_layers) return;
 
     VkDebugUtilsMessengerCreateInfoEXT msgr_create_info{};
-    pop_debug_msgr_create_info(msgr_create_info);
+    // Added the debugger here
+    _debugger.pop_debug_msgr_create_info(msgr_create_info);
+    // pop_debug_msgr_create_info(msgr_create_info);
 
     if (CreateDebugUtilsMessengerEXT(instance, &msgr_create_info, nullptr, &debugMessenger) != VK_SUCCESS) {
         throw std::runtime_error("failed to set up debug messenger!");
