@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "./Vk_Instance.hpp"
-#include "./Vk_debugger.hpp"
+#include "./Vk_Debugger.hpp"
 
 class Vk_Manager {
    public:
