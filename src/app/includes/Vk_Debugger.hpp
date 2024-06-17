@@ -21,7 +21,7 @@ class Vk_Debugger {
         VkDebugUtilsMessageTypeFlagsEXT msg_type,
         const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
         void* user_data) {
-        std::cerr << "Validation Layers: " << callback_data->pMessage << std::endl;
+        std::cerr << "VK Debugger: " << callback_data->pMessage << std::endl;
 
         return VK_FALSE;
     };

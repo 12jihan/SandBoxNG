@@ -1,5 +1,4 @@
 #include "./includes/Vk_Manager.hpp"
-#include "./includes/Vk_Debugger.hpp"
 
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
@@ -9,6 +8,7 @@
 #include <map>
 #include <vector>
 
+#include "./includes/Vk_Debugger.hpp"
 #include "./includes/Vk_Instance.hpp"
 
 // #define NDEBUG
@@ -34,8 +34,8 @@ const std::vector<const char*> device_exts = {
 void Vk_Manager::init() {
     _inst.init();
     check_ext_support();
-    // check_validation_layer_support();
-    // create_instance();
+    check_validation_layer_support();
+    create_instance();
     // setup_debug_msgr();
     // pick_physical_device();
     // create_logical_device();
@@ -90,14 +90,6 @@ void Vk_Manager::_create_info() {
     create_info.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;  // Set macOS compatibility flag
     create_info.pApplicationInfo = &app_info;
 
-    // Get required extensions
-    // Don't think I need to get specific glfw extensions here anymore
-    // uint32_t glfw_ext_count = 0;
-    // const char** glfw_exts;
-    // glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
-    // create_info.enabledExtensionCount = glfw_ext_count;
-    // create_info.ppEnabledExtensionNames = glfw_exts;
-
     auto extensions = get_req_exts();
     create_info.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
     create_info.ppEnabledExtensionNames = extensions.data();
@@ -109,7 +101,6 @@ void Vk_Manager::_create_info() {
         create_info.ppEnabledLayerNames = instance_val_layers.data();
         // Added the debugger here as well
         _debugger.pop_debug_msgr_create_info(debug_create_info);
-        // pop_debug_msgr_create_info(debug_create_info);
         create_info.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debug_create_info;
     } else {
         create_info.enabledLayerCount = 0;
@@ -181,26 +172,26 @@ std::vector<const char*> Vk_Manager::get_req_exts() {
     return combined_extensions;
 }
 
-void Vk_Manager::setup_debug_msgr() {
-    if (!enable_validation_layers) return;
+// void Vk_Manager::setup_debug_msgr() {
+//     if (!enable_validation_layers) return;
 
-    VkDebugUtilsMessengerCreateInfoEXT msgr_create_info{};
-    // Added the debugger here
-    _debugger.pop_debug_msgr_create_info(msgr_create_info);
-    // pop_debug_msgr_create_info(msgr_create_info);
+//     VkDebugUtilsMessengerCreateInfoEXT msgr_create_info{};
+//     // Added the debugger here
+//     _debugger.pop_debug_msgr_create_info(msgr_create_info);
+//     // pop_debug_msgr_create_info(msgr_create_info);
 
-    if (CreateDebugUtilsMessengerEXT(instance, &msgr_create_info, nullptr, &debugMessenger) != VK_SUCCESS) {
-        throw std::runtime_error("failed to set up debug messenger!");
-    }
-}
+//     if (CreateDebugUtilsMessengerEXT(instance, &msgr_create_info, nullptr, &debugMessenger) != VK_SUCCESS) {
+//         throw std::runtime_error("failed to set up debug messenger!");
+//     }
+// }
 
-void Vk_Manager::pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEXT& msgr_create_info) {
-    msgr_create_info = {};
-    msgr_create_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    msgr_create_info.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-    msgr_create_info.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-    msgr_create_info.pfnUserCallback = debug_callback;
-}
+// void Vk_Manager::pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEXT& msgr_create_info) {
+//     msgr_create_info = {};
+//     msgr_create_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+//     msgr_create_info.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+//     msgr_create_info.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+//     msgr_create_info.pfnUserCallback = debug_callback;
+// }
 
 bool Vk_Manager::is_device_suitable(VkPhysicalDevice device) {
     Vk_Manager::QueueFamilyIndices indices = find_queue_families(device);
