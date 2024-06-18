@@ -36,6 +36,7 @@ void Vk_Manager::init() {
     check_ext_support();
     check_validation_layer_support();
     create_instance();
+    _instancer.init();
     // setup_debug_msgr();
     // pick_physical_device();
     // create_logical_device();

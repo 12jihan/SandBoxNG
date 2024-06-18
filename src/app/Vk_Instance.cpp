@@ -60,7 +60,16 @@ void Vk_Instance::_create_info() {
     if (enable_validation) {
         create_info.enabledLayerCount = static_cast<uint32_t>(val_layers.size());
         create_info.ppEnabledLayerNames = val_layers.data();
-        // _pop_debug_msgr_create_info(debug_create_info);
+        // Add the debugger
+        _debugger.pop_debug_msgr_create_info(debug_create_info);
+        create_info.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debug_create_info;
+    } else {
+        create_info.enabledLayerCount = 0;
+        create_info.pNext = nullptr;
+    }
+    
+    if (vkCreateInstance(&create_info, nullptr, &instance) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create instance!\n\t- Error Code: " + std::to_string(result));
     }
 }
 
@@ -90,4 +99,13 @@ std::vector<const char*> Vk_Instance::_get_req_exts() {
 
     // Return the vector of extensions
     return _combined_exts;
+}
+
+// void Vk_Instance::clean() {
+//     _debugger.DestroyDebugUtilsMessengerEXT(instance, _debugger.debug_messenger, nullptr);
+//     vkDestroyInstance(instance, nullptr);
+// }
+
+VkInstance& Vk_Instance::get_instance() {
+    return instance;
 }

@@ -1,15 +1,15 @@
 #pragma once
 
 #include <vulkan/vulkan.h>
+
 #include <vector>
 
-class Vk_Instance {
-   public:
-    void init();
-    void clean();
-    VkResult result = VK_SUCCESS;
+#include "Vk_Debugger.hpp"
 
+class Vk_Instance {
    private:
+    Vk_Debugger _debugger;
+    
     VkInstance instance;
     VkApplicationInfo app_info;
     VkInstanceCreateInfo create_info;
@@ -19,4 +19,11 @@ class Vk_Instance {
     void _create_info();
 
     std::vector<const char*> _get_req_exts();
+
+   public:
+    void init();
+    void clean();
+    VkInstance& get_instance();
+    VkResult result = VK_SUCCESS;
+
 };

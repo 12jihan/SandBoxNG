@@ -15,6 +15,8 @@ class Vk_Manager {
 
    private:
     Vk_Debugger _debugger;
+    Vk_Instance _instancer;
+
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;
 
