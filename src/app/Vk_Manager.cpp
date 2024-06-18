@@ -35,27 +35,26 @@ void Vk_Manager::init() {
     _inst.init();
     check_ext_support();
     check_validation_layer_support();
-    create_instance();
     _instancer.init();
     // setup_debug_msgr();
     // pick_physical_device();
     // create_logical_device();
 }
 
-void Vk_Manager::create_instance() {
-    // Check to see if validation layers are available
-    if (enable_validation_layers && !check_validation_layer_support()) {
-        throw new std::runtime_error("Validation layers requested, but not available!");
-    }
-    // Create the application information
-    _app_info();
-    // Create Instance information
-    _create_info();
-}
+// void Vk_Manager::create_instance() {
+//     // Check to see if validation layers are available
+//     if (enable_validation_layers && !check_validation_layer_support()) {
+//         throw new std::runtime_error("Validation layers requested, but not available!");
+//     }
+//     // Create the application information
+//     _app_info();
+//     // Create Instance information
+//     _create_info();
+// }
 
 void Vk_Manager::clean() {
     vkDestroyDevice(device, nullptr);
-    DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+    DestroyDebugUtilsMessengerEXT(_instancer.get_instance(), debugMessenger, nullptr);
     vkDestroyInstance(instance, nullptr);
 }
 

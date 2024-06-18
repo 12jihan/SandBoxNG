@@ -48,4 +48,6 @@ class Vk_Debugger {
             func(instance, debugMessenger, pAllocator);
         }
     }
+
+    VkDebugUtilsMessengerEXT get_debug_messenger() { return debug_messenger; }
 };
