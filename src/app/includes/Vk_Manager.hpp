@@ -29,7 +29,6 @@ class Vk_Manager {
         "VK_LAYER_KHRONOS_validation",
     };
 
-    Vk_Instance _inst;
     VkPhysicalDevice physical_device = VK_NULL_HANDLE;
     VkResult result = VK_SUCCESS;
     VkInstance instance;

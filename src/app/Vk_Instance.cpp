@@ -26,7 +26,7 @@ void Vk_Instance::init() {
 }
 
 void Vk_Instance::_create_instance() {
-    if (enable_validation && false) {
+    if (enable_validation && !_check_validation_layer_support()) {
         throw new std::runtime_error("Validation layers requested, but not available!");
     }
 
@@ -56,6 +56,13 @@ void Vk_Instance::_create_info() {
     create_info.enabledExtensionCount = static_cast<uint32_t>(_exts.size());
     create_info.ppEnabledExtensionNames = _exts.data();
 
+    std::cout << "Enabled exts in instance class: " << std::endl;
+    for (auto& ext : _exts) {
+        std::cout << "- " << ext << std::endl;
+    };
+    std::cout << "\n"
+              << std::endl;
+
     VkDebugUtilsMessengerCreateInfoEXT debug_create_info{};
     if (enable_validation) {
         create_info.enabledLayerCount = static_cast<uint32_t>(val_layers.size());
@@ -67,8 +74,9 @@ void Vk_Instance::_create_info() {
         create_info.enabledLayerCount = 0;
         create_info.pNext = nullptr;
     }
-    
-    if (vkCreateInstance(&create_info, nullptr, &instance) != VK_SUCCESS) {
+
+    VkResult result = vkCreateInstance(&create_info, nullptr, &instance);
+    if (result != VK_SUCCESS) {
         throw std::runtime_error("failed to create instance!\n\t- Error Code: " + std::to_string(result));
     }
 }
@@ -105,6 +113,33 @@ std::vector<const char*> Vk_Instance::_get_req_exts() {
 //     _debugger.DestroyDebugUtilsMessengerEXT(instance, _debugger.debug_messenger, nullptr);
 //     vkDestroyInstance(instance, nullptr);
 // }
+
+bool Vk_Instance::_check_validation_layer_support() {
+    uint32_t layer_count;
+    vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
+
+    std::vector<VkLayerProperties> available_layers(layer_count);
+    vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
+
+    std::cout << "Layers: " << std::endl;
+    for (const char* layer_name : val_layers) {
+        bool layer_found = false;
+        std::cout << "- " << layer_name << std::endl;
+
+        for (const auto& layer_properties : available_layers) {
+            if (strcmp(layer_name, layer_properties.layerName) == 0) {
+                layer_found = true;
+                break;
+            }
+        }
+
+        if (!layer_found) {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 VkInstance& Vk_Instance::get_instance() {
     return instance;

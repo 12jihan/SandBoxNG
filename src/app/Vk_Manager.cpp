@@ -32,13 +32,13 @@ const std::vector<const char*> device_exts = {
 };
 
 void Vk_Manager::init() {
-    _inst.init();
     check_ext_support();
     check_validation_layer_support();
     _instancer.init();
+    _debugger.setup_debug_messenger(instance, enableValidationLayers);
     // setup_debug_msgr();
-    // pick_physical_device();
-    // create_logical_device();
+    pick_physical_device();
+    create_logical_device();
 }
 
 // void Vk_Manager::create_instance() {
@@ -170,7 +170,7 @@ std::vector<const char*> Vk_Manager::get_req_exts() {
     // For testing purposes - end
 
     return combined_extensions;
-}
+}   
 
 // void Vk_Manager::setup_debug_msgr() {
 //     if (!enable_validation_layers) return;

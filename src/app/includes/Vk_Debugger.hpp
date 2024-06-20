@@ -8,11 +8,11 @@
 
 class Vk_Debugger {
    private:
-    void setup_debug_msgr(VkInstance _instance, bool enable_validation);
+    VkDebugUtilsMessengerEXT _debug_messenger;
 
    public:
-    VkDebugUtilsMessengerEXT debug_messenger;
 
+    void setup_debug_messenger(VkInstance _instance, bool enable_validation);
     void pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEXT& msgr_create_info);
 
     static VKAPI_ATTR VkBool32 VKAPI_CALL
@@ -49,5 +49,7 @@ class Vk_Debugger {
         }
     }
 
-    VkDebugUtilsMessengerEXT get_debug_messenger() { return debug_messenger; }
+    void setup_debug_messenger(VkInstance& instance);
+
+    VkDebugUtilsMessengerEXT get_debug_messenger();
 };

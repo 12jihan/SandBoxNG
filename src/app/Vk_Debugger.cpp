@@ -8,7 +8,7 @@ VkResult CreateDebugUtilsMessengerEXT(
     const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
     const VkAllocationCallbacks* pAllocator,
     VkDebugUtilsMessengerEXT* debug_messenger) {
-        // Not 100% on what this is supposed to be doing
+    // Not 100% on what this is supposed to be doing
     auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(_instance, "vkCreateDebugUtilsMessengerEXT");
     if (func != nullptr) {
         return func(_instance, pCreateInfo, pAllocator, debug_messenger);
@@ -36,14 +36,18 @@ void Vk_Debugger::pop_debug_msgr_create_info(VkDebugUtilsMessengerCreateInfoEXT&
     msgr_create_info.pfnUserCallback = debug_callback;
 }
 
-// This utilizes the debug messenger create info to set up the debug messenger
-void Vk_Debugger::setup_debug_msgr(VkInstance _instance, bool enable_validation) {
+void Vk_Debugger::setup_debug_messenger(VkInstance _instance, bool enable_validation) {
     if (!enable_validation) return;
 
     VkDebugUtilsMessengerCreateInfoEXT msgr_create_info{};
     pop_debug_msgr_create_info(msgr_create_info);
-
-    if (CreateDebugUtilsMessengerEXT(_instance, &msgr_create_info, nullptr, &debug_messenger) != VK_SUCCESS) {
+    const auto result = CreateDebugUtilsMessengerEXT(_instance, &msgr_create_info, nullptr, &_debug_messenger);
+    std::cout << result << std::endl;
+    if (result != VK_SUCCESS) {
         throw std::runtime_error("failed to set up debug messenger!");
     }
+}
+
+VkDebugUtilsMessengerEXT Vk_Debugger::get_debug_messenger() {
+    return _debug_messenger;
 }
