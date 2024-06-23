@@ -35,7 +35,7 @@ void Vk_Manager::init() {
     check_ext_support();
     check_validation_layer_support();
     _instancer.init();
-    _debugger.setup_debug_messenger(instance, enableValidationLayers);
+    _debugger.setup_debug_messenger(_instancer.get_instance(), enableValidationLayers);
     // setup_debug_msgr();
     pick_physical_device();
     create_logical_device();
@@ -55,7 +55,7 @@ void Vk_Manager::init() {
 void Vk_Manager::clean() {
     vkDestroyDevice(device, nullptr);
     DestroyDebugUtilsMessengerEXT(_instancer.get_instance(), debugMessenger, nullptr);
-    vkDestroyInstance(instance, nullptr);
+    vkDestroyInstance(_instancer.get_instance(), nullptr);
 }
 
 void Vk_Manager::check_ext_support() {
@@ -107,7 +107,7 @@ void Vk_Manager::_create_info() {
         create_info.pNext = nullptr;
     }
 
-    if (vkCreateInstance(&create_info, nullptr, &instance) != VK_SUCCESS) {
+    if (vkCreateInstance(&create_info, nullptr, &_instancer.get_instance()) != VK_SUCCESS) {
         throw std::runtime_error("failed to create instance!\n\t- Error Code: " + std::to_string(result));
     }
 }
@@ -201,10 +201,10 @@ bool Vk_Manager::is_device_suitable(VkPhysicalDevice device) {
 
 void Vk_Manager::pick_physical_device() {
     uint32_t device_count = 0;
-    vkEnumeratePhysicalDevices(instance, &device_count, nullptr);
+    vkEnumeratePhysicalDevices(_instancer.get_instance(), &device_count, nullptr);
     if (device_count == 0) throw std::runtime_error("failed to find GPUs with Vulkan support!");
     std::vector<VkPhysicalDevice> devices(device_count);
-    vkEnumeratePhysicalDevices(instance, &device_count, devices.data());
+    vkEnumeratePhysicalDevices(_instancer.get_instance(), &device_count, devices.data());
 
     for (const auto& device : devices) {
         VkPhysicalDeviceProperties device_props;

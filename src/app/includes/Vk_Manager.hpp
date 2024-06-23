@@ -31,7 +31,7 @@ class Vk_Manager {
 
     VkPhysicalDevice physical_device = VK_NULL_HANDLE;
     VkResult result = VK_SUCCESS;
-    VkInstance instance;
+    // VkInstance instance;
     VkDebugUtilsMessengerEXT debugMessenger;
     VkQueue graphics_queue;
     VkDevice device;
