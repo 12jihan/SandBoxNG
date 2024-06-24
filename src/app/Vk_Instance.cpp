@@ -21,7 +21,7 @@ const std::vector<const char*> exts = {
 };
 
 void Vk_Instance::init() {
-    std::cout << "Vk_Instance" << std::endl;
+    log_inst_layers();
     _create_instance();
 }
 
@@ -143,3 +143,25 @@ bool Vk_Instance::_check_validation_layer_support() {
 VkInstance& Vk_Instance::get_instance() {
     return instance;
 }
+
+//** For testing purposes - start
+
+void Vk_Instance::log_inst_layers() {
+    uint32_t layer_count;
+    vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
+
+    std::vector<VkLayerProperties> layers(layer_count);
+    vkEnumerateInstanceLayerProperties(&layer_count, layers.data());
+
+    std::cout << "----------------------" << std::endl;
+    std::cout << "Available layers: " << std::endl;
+    std::cout << "----------------------" << std::endl;
+    for (const auto& layer : layers) {
+        std::cout << "\t- " << layer.layerName << ":" << std::endl;
+        std::cout << "\t\t- " << layer.description << "\n"
+                  << std::endl;
+    }
+    std::cout << "----------------------" << std::endl;
+}
+
+//** For testing purposes - end

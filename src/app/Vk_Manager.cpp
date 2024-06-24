@@ -131,6 +131,6 @@ void Vk_Manager::get_device_vals() {
 
     std::cout << "device layers:" << std::endl;
     for (auto layer : avail_layers) {
-        std::cout << "-\t" << layer.layerName << std::endl;
+        std::cout << "+\t" << layer.layerName << std::endl;
     }
 }

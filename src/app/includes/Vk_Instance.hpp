@@ -26,5 +26,6 @@ class Vk_Instance {
     void clean();
     VkInstance& get_instance();
     VkResult result = VK_SUCCESS;
+    void log_inst_layers();
 
 };
