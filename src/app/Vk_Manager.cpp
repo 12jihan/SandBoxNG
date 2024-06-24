@@ -121,7 +121,6 @@ std::vector<const char*> Vk_Manager::get_req_exts() {
     return combined_extensions;
 }
 
-
 void Vk_Manager::get_device_vals() {
     uint32_t layer_count = 0;
     vkEnumerateDeviceLayerProperties(physical_device, &layer_count, nullptr);
