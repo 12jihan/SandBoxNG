@@ -10,6 +10,7 @@
 
 #include "./includes/Vk_Debugger.hpp"
 #include "./includes/Vk_Device.hpp"
+#include "./includes/Vk_Ext_Handler.hpp"
 #include "./includes/Vk_Instance.hpp"
 
 // #define NDEBUG
@@ -33,11 +34,13 @@ const std::vector<const char*> device_exts = {
 };
 
 void Vk_Manager::init() {
-    check_ext_support();
-    check_validation_layer_support();
+    _ext_handler._check_instance_ext_support();
+    // check_ext_support();
+    // check_validation_layer_support();
     _instancer.init();
     _debugger.setup_debug_messenger(_instancer.get_instance(), enableValidationLayers);
     _device.init(_instancer.get_instance(), enableValidationLayers);
+    _ext_handler._check_device_ext_support(_device.get_physical_device());
 }
 
 void Vk_Manager::clean() {

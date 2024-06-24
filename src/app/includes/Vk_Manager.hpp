@@ -7,6 +7,7 @@
 
 #include "./Vk_Debugger.hpp"
 #include "./Vk_Device.hpp"
+#include "./Vk_Ext_Handler.hpp"
 #include "./Vk_Instance.hpp"
 
 class Vk_Manager {
@@ -18,6 +19,7 @@ class Vk_Manager {
     Vk_Debugger _debugger;
     Vk_Instance _instancer;
     Vk_Device _device;
+    Vk_Ext_Handler _ext_handler;
 
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;

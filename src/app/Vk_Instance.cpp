@@ -153,15 +153,15 @@ void Vk_Instance::log_inst_layers() {
     std::vector<VkLayerProperties> layers(layer_count);
     vkEnumerateInstanceLayerProperties(&layer_count, layers.data());
 
-    std::cout << "----------------------" << std::endl;
-    std::cout << "Available layers: " << std::endl;
-    std::cout << "----------------------" << std::endl;
+    std::cout << "|---------------------------|" << std::endl;
+    std::cout << "| Available Instance Layers |" << std::endl;
+    std::cout << "|---------------------------|\n" << std::endl;
     for (const auto& layer : layers) {
         std::cout << "\t- " << layer.layerName << ":" << std::endl;
         std::cout << "\t\t- " << layer.description << "\n"
                   << std::endl;
     }
-    std::cout << "----------------------" << std::endl;
+    std::cout << "|---------------------------|" << std::endl;
 }
 
 //** For testing purposes - end
