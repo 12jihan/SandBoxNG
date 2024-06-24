@@ -52,4 +52,6 @@ class Vk_Debugger {
     void setup_debug_messenger(VkInstance& instance);
 
     VkDebugUtilsMessengerEXT get_debug_messenger();
+
+    void clean(VkInstance instance);
 };

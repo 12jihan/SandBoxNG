@@ -109,10 +109,9 @@ std::vector<const char*> Vk_Instance::_get_req_exts() {
     return _combined_exts;
 }
 
-// void Vk_Instance::clean() {
-//     _debugger.DestroyDebugUtilsMessengerEXT(instance, _debugger.debug_messenger, nullptr);
-//     vkDestroyInstance(instance, nullptr);
-// }
+void Vk_Instance::clean() {
+    vkDestroyInstance(instance, nullptr);
+}
 
 bool Vk_Instance::_check_validation_layer_support() {
     uint32_t layer_count;

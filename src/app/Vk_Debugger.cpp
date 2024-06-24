@@ -48,6 +48,10 @@ void Vk_Debugger::setup_debug_messenger(VkInstance _instance, bool enable_valida
     }
 }
 
+void Vk_Debugger::clean(VkInstance instance) {
+    DestroyDebugUtilsMessengerEXT(instance, _debug_messenger, nullptr);
+}
+
 VkDebugUtilsMessengerEXT Vk_Debugger::get_debug_messenger() {
     return _debug_messenger;
 }
