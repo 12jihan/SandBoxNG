@@ -35,8 +35,8 @@ const std::vector<const char*> device_exts = {
 
 void Vk_Manager::init() {
     _ext_handler._check_instance_ext_support();
-    // check_ext_support();
-    // check_validation_layer_support();
+   // check_ext_support();
+    check_validation_layer_support();
     _instancer.init();
     _debugger.setup_debug_messenger(_instancer.get_instance(), enableValidationLayers);
     _device.init(_instancer.get_instance(), enableValidationLayers);
@@ -113,12 +113,12 @@ std::vector<const char*> Vk_Manager::get_req_exts() {
     }
 
     // For testing purposes - start
-    std::cout << "\nGetting all required extensions:" << std::endl;
-    std::cout << "----------------------" << std::endl;
-    for (auto& ext : combined_extensions) {
-        std::cout << ext << std::endl;
-    }
-    std::cout << "----------------------" << std::endl;
+    // std::cout << "\nGetting all required extensions:" << std::endl;
+    // std::cout << "----------------------" << std::endl;
+    // for (auto& ext : combined_extensions) {
+    //     std::cout << ext << std::endl;
+    // }
+    // std::cout << "----------------------" << std::endl;
     // For testing purposes - end
 
     return combined_extensions;

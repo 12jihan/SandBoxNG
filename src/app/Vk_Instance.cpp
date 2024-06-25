@@ -97,12 +97,12 @@ std::vector<const char*> Vk_Instance::_get_req_exts() {
     if (enable_validation) _combined_exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 
     //** For testing purposes - start
-    std::cout << "\nGetting all required extensions:" << std::endl;
-    std::cout << "----------------------" << std::endl;
-    for (auto& __ext : _combined_exts) {
-        std::cout << __ext << std::endl;
-    }
-    std::cout << "----------------------" << std::endl;
+    // std::cout << "\nGetting all required extensions:" << std::endl;
+    // std::cout << "----------------------" << std::endl;
+    // for (auto& __ext : _combined_exts) {
+    //     std::cout << __ext << std::endl;
+    // }
+    // std::cout << "----------------------" << std::endl;
     //** For testing purposes - end
 
     // Return the vector of extensions
