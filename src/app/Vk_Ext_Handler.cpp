@@ -48,7 +48,7 @@ void Vk_Ext_Handler::_check_instance_ext_support() {
 };
 
 void Vk_Ext_Handler::_check_device_ext_support(VkPhysicalDevice physical_device) {
-    std::cout << "physical device: " << physical_device << std::endl;
+    std::cout << "\nphysical device: " << physical_device << std::endl;
     uint32_t _count = 0;
     vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &_count, nullptr);
 
@@ -78,15 +78,6 @@ std::vector<const char *> Vk_Ext_Handler::_get_required_exts() {
 
     // If debuggin is enabled, add the debug extension
     if (_enable_validation) _combined_exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-
-    //** For testing purposes - start
-    // std::cout << "\nGetting all required extensions:" << std::endl;
-    // std::cout << "----------------------" << std::endl;
-    // for (auto& __ext : _combined_exts) {
-    //     std::cout << __ext << std::endl;
-    // }
-    // std::cout << "----------------------" << std::endl;
-    //** For testing purposes - end
 
     // Return the vector of extensions
     return _combined_exts;
