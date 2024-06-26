@@ -10,7 +10,7 @@ const std::vector<const char*> inst_val_layers = {
     "VK_LAYER_KHRONOS_validation",
 };
 
-bool check_instance_validation_layers_support() {
+bool Vk_Validation_Layer_Handler::check_instance_validation_layers_support() {
     uint32_t _count;
     vkEnumerateInstanceLayerProperties(&_count, nullptr);
 
@@ -54,3 +54,4 @@ void Vk_Validation_Layer_Handler::get_device_validation_layers(VkPhysicalDevice 
     };
     std::cout << "|-------------------|" << std::endl;
 }
+

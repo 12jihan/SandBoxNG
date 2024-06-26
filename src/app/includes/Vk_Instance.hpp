@@ -6,6 +6,7 @@
 
 #include "Vk_Debugger.hpp"
 
+
 class Vk_Instance {
    private:
     Vk_Debugger _debugger;

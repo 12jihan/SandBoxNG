@@ -1,10 +1,34 @@
 #include "./includes/Vk_Ext_Handler.hpp"
 
+#include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_beta.h>
 
 #include <iostream>
 #include <vector>
+
+#include "./tools/includes/Blk_Tools.hpp"
+
+std::vector<const char *> exts = {
+    VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
+};
+
+void Vk_Ext_Handler::init(VkPhysicalDevice physical_device, bool enable_validation) {
+    _enable_validation = enable_validation;
+};
+// _check_instance_ext_support();
+// _check_device_ext_support(physical_device);
+
+// if (Blk_Tools::vector_contains(exts, ext_name)) {
+//     std::cout << "Already exists in the list of extensions\n"
+//               << std::endl;
+//     std::cout << "Request will be ignored\n"
+//               << std::endl;
+// } else {
+// }
+void Vk_Ext_Handler::add_ext(const char *ext_name) {
+    exts.push_back(ext_name);
+};
 
 void Vk_Ext_Handler::_check_instance_ext_support() {
     uint32_t _count = 0;
@@ -39,3 +63,31 @@ void Vk_Ext_Handler::_check_device_ext_support(VkPhysicalDevice physical_device)
     };
     std::cout << "|-------------------|" << std::endl;
 };
+
+std::vector<const char *> Vk_Ext_Handler::_get_required_exts() {
+    uint32_t _glfw_ext_count = 0;
+    const char **_glfw_exts;
+    _glfw_exts = glfwGetRequiredInstanceExtensions(&_glfw_ext_count);
+
+    std::vector<const char *> _exts = exts;
+    _exts.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+
+    // Combine GLFW extensions with additional extensions
+    std::vector<const char *> _combined_exts(_glfw_exts, _glfw_exts + _glfw_ext_count);
+    _combined_exts.insert(_combined_exts.end(), _exts.begin(), _exts.end());
+
+    // If debuggin is enabled, add the debug extension
+    if (_enable_validation) _combined_exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+
+    //** For testing purposes - start
+    // std::cout << "\nGetting all required extensions:" << std::endl;
+    // std::cout << "----------------------" << std::endl;
+    // for (auto& __ext : _combined_exts) {
+    //     std::cout << __ext << std::endl;
+    // }
+    // std::cout << "----------------------" << std::endl;
+    //** For testing purposes - end
+
+    // Return the vector of extensions
+    return _combined_exts;
+}

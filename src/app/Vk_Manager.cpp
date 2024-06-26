@@ -36,7 +36,7 @@ const std::vector<const char*> device_exts = {
 void Vk_Manager::init() {
     _ext_handler._check_instance_ext_support();
    // check_ext_support();
-    check_validation_layer_support();
+    // check_validation_layer_support();
     _instancer.init();
     _debugger.setup_debug_messenger(_instancer.get_instance(), enableValidationLayers);
     _device.init(_instancer.get_instance(), enableValidationLayers);
