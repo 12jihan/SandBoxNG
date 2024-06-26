@@ -54,16 +54,10 @@ void Vk_Instance::_create_info() {
     // Get required exts and enable them:
     auto _exts = _get_req_exts();
     create_info.enabledExtensionCount = static_cast<uint32_t>(_exts.size());
+
     create_info.ppEnabledExtensionNames = _exts.data();
-
-    std::cout << "Enabled exts in instance class: " << std::endl;
-    for (auto& ext : _exts) {
-        std::cout << "- " << ext << std::endl;
-    };
-    std::cout << "\n"
-              << std::endl;
-
     VkDebugUtilsMessengerCreateInfoEXT debug_create_info{};
+
     if (enable_validation) {
         create_info.enabledLayerCount = static_cast<uint32_t>(val_layers.size());
         create_info.ppEnabledLayerNames = val_layers.data();
@@ -155,7 +149,8 @@ void Vk_Instance::log_inst_layers() {
 
     std::cout << "|---------------------------|" << std::endl;
     std::cout << "| Available Instance Layers |" << std::endl;
-    std::cout << "|---------------------------|\n" << std::endl;
+    std::cout << "|---------------------------|\n"
+              << std::endl;
     for (const auto& layer : layers) {
         std::cout << "\t- " << layer.layerName << ":" << std::endl;
         std::cout << "\t\t- " << layer.description << "\n"
