@@ -15,6 +15,8 @@ std::vector<const char *> exts = {
 
 void Vk_Ext_Handler::init(VkPhysicalDevice physical_device, bool enable_validation) {
     _enable_validation = enable_validation;
+    if (_enable_validation) {
+    }
 };
 // _check_instance_ext_support();
 // _check_device_ext_support(physical_device);
@@ -70,7 +72,9 @@ std::vector<const char *> Vk_Ext_Handler::_get_required_exts() {
     _glfw_exts = glfwGetRequiredInstanceExtensions(&_glfw_ext_count);
 
     std::vector<const char *> _exts = exts;
-    _exts.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+    if (_enable_validation) {
+        _exts.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+    };
 
     // Combine GLFW extensions with additional extensions
     std::vector<const char *> _combined_exts(_glfw_exts, _glfw_exts + _glfw_ext_count);
@@ -81,4 +85,8 @@ std::vector<const char *> Vk_Ext_Handler::_get_required_exts() {
 
     // Return the vector of extensions
     return _combined_exts;
+}
+
+const std::vector<const char *> &Vk_Ext_Handler::_get_ext_list() {
+    return exts;
 }

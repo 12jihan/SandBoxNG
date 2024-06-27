@@ -15,6 +15,6 @@ class Vk_Ext_Handler {
     void _check_instance_ext_support();
     void _check_device_ext_support(VkPhysicalDevice physical_device);
     void add_ext(const char *ext_name);
-
+    const std::vector<const char *> &_get_ext_list();
     std::vector<const char *> _get_required_exts();
 };

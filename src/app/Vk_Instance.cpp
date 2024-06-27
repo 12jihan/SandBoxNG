@@ -25,11 +25,15 @@ void Vk_Instance::init() {
     _create_instance();
 }
 
+void Vk_Instance::setup_extensions() {
+    _ext_handler.add_ext(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+};
+
 void Vk_Instance::_create_instance() {
     if (enable_validation && !_check_validation_layer_support()) {
         throw new std::runtime_error("Validation layers requested, but not available!");
     }
-
+    _ext_handler.init();
     _app_info();
     _create_info();
 }
@@ -61,7 +65,7 @@ void Vk_Instance::_create_info() {
     if (enable_validation) {
         create_info.enabledLayerCount = static_cast<uint32_t>(val_layers.size());
         create_info.ppEnabledLayerNames = val_layers.data();
-        // Add the debugger
+
         _debugger.pop_debug_msgr_create_info(debug_create_info);
         create_info.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debug_create_info;
     } else {
@@ -89,7 +93,7 @@ std::vector<const char*> Vk_Instance::_get_req_exts() {
 
     // If debuggin is enabled, add the debug extension
     if (enable_validation) _combined_exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-    
+
     return _combined_exts;
 }
 
