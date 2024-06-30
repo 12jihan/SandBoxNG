@@ -20,7 +20,7 @@ class Vk_Instance {
     void _app_info();
     void _create_info();
     bool _check_validation_layer_support();
-    void Vk_Instance::setup_extensions();
+    void _setup_extensions();
     std::vector<const char*> _get_req_exts();
 
    public:

@@ -16,24 +16,26 @@ const std::vector<const char*> val_layers = {
     "VK_LAYER_KHRONOS_validation",
 };
 
-const std::vector<const char*> exts = {
-    VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
-};
+// const std::vector<const char*> exts = {
+//     VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
+// };
 
 void Vk_Instance::init() {
+    _setup_extensions();
     log_inst_layers();
     _create_instance();
 }
 
-void Vk_Instance::setup_extensions() {
+void Vk_Instance::_setup_extensions() {
     _ext_handler.add_ext(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
 };
 
 void Vk_Instance::_create_instance() {
-    if (enable_validation && !_check_validation_layer_support()) {
+    bool _layer_support =  !_check_validation_layer_support();
+    if (enable_validation && _layer_support) {
         throw new std::runtime_error("Validation layers requested, but not available!");
     }
-    _ext_handler.init();
+    _ext_handler.init(enable_validation);
     _app_info();
     _create_info();
 }
@@ -56,7 +58,7 @@ void Vk_Instance::_create_info() {
     create_info.pApplicationInfo = &app_info;
 
     // Get required exts and enable them:
-    auto _exts = _get_req_exts();
+    auto _exts = _ext_handler._get_required_exts();
     create_info.enabledExtensionCount = static_cast<uint32_t>(_exts.size());
 
     create_info.ppEnabledExtensionNames = _exts.data();
@@ -79,24 +81,6 @@ void Vk_Instance::_create_info() {
     }
 }
 
-std::vector<const char*> Vk_Instance::_get_req_exts() {
-    uint32_t _glfw_ext_count = 0;
-    const char** _glfw_exts;
-    _glfw_exts = glfwGetRequiredInstanceExtensions(&_glfw_ext_count);
-
-    std::vector<const char*> _exts = exts;
-    _exts.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
-
-    // Combine GLFW extensions with additional extensions
-    std::vector<const char*> _combined_exts(_glfw_exts, _glfw_exts + _glfw_ext_count);
-    _combined_exts.insert(_combined_exts.end(), _exts.begin(), _exts.end());
-
-    // If debuggin is enabled, add the debug extension
-    if (enable_validation) _combined_exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-
-    return _combined_exts;
-}
-
 void Vk_Instance::clean() {
     vkDestroyInstance(instance, nullptr);
 }
@@ -108,10 +92,12 @@ bool Vk_Instance::_check_validation_layer_support() {
     std::vector<VkLayerProperties> available_layers(layer_count);
     vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
 
-    std::cout << "Layers: " << std::endl;
+    std::cout << "|----------------------------------|" << std::endl;
+    std::cout << "|  Validation Layer Support Check  |" << std::endl;
+    std::cout << "|----------------------------------|" << std::endl;
     for (const char* layer_name : val_layers) {
         bool layer_found = false;
-        std::cout << "- " << layer_name << std::endl;
+        std::cout << "+ " << layer_name << std::endl;
 
         for (const auto& layer_properties : available_layers) {
             if (strcmp(layer_name, layer_properties.layerName) == 0) {
@@ -124,6 +110,7 @@ bool Vk_Instance::_check_validation_layer_support() {
             return false;
         }
     }
+    std::cout << "|----------------------------------|\n" << std::endl;
 
     return true;
 }

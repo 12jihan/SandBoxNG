@@ -12,8 +12,9 @@
 std::vector<const char *> exts = {
     VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
 };
-
-void Vk_Ext_Handler::init(VkPhysicalDevice physical_device, bool enable_validation) {
+// Taking out this parameter for now
+// VkPhysicalDevice physical_device,
+void Vk_Ext_Handler::init(bool enable_validation) {
     _enable_validation = enable_validation;
     if (_enable_validation) {
     }
@@ -50,7 +51,6 @@ void Vk_Ext_Handler::_check_instance_ext_support() {
 };
 
 void Vk_Ext_Handler::_check_device_ext_support(VkPhysicalDevice physical_device) {
-    std::cout << "\nphysical device: " << physical_device << std::endl;
     uint32_t _count = 0;
     vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &_count, nullptr);
 

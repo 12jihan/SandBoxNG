@@ -143,10 +143,13 @@ void Vk_Device::_get_device_validations() {
     std::vector<VkLayerProperties> avail_layers(layer_count);
     vkEnumerateDeviceLayerProperties(_physical_device, &layer_count, avail_layers.data());
 
-    std::cout << "device layers:" << std::endl;
+    std::cout << "|-------------------|" << std::endl;
+    std::cout << "|   device layers:  |" << std::endl;
+    std::cout << "|-------------------|" << std::endl;
     for (auto layer : avail_layers) {
         std::cout << "-\t" << layer.layerName << std::endl;
     }
+    std::cout << "|-------------------|" << std::endl;
 }
 
 void Vk_Device::clean() {

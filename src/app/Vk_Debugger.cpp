@@ -42,7 +42,6 @@ void Vk_Debugger::setup_debug_messenger(VkInstance _instance, bool enable_valida
     VkDebugUtilsMessengerCreateInfoEXT msgr_create_info{};
     pop_debug_msgr_create_info(msgr_create_info);
     const auto result = CreateDebugUtilsMessengerEXT(_instance, &msgr_create_info, nullptr, &_debug_messenger);
-    std::cout << result << std::endl;
     if (result != VK_SUCCESS) {
         throw std::runtime_error("failed to set up debug messenger!");
     }
