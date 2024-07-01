@@ -20,7 +20,7 @@ bool Vk_Validation_Layer_Handler::check_validation_layers_support() {
     std::cout << "|  Instance Validation Layers  |" << std::endl;
     std::cout << "|------------------------------|" << std::endl;
     for (const char* layer_name : val_layers) {
-        std::cout << "\t- " << layer_name << std::endl;
+        std::cout << "| - " << layer_name << std::endl;
         bool layer_found = false;
         for (const auto& layer_props : avail_layers) {
             if (strcmp(layer_name, layer_props.layerName)) {
@@ -48,8 +48,8 @@ void Vk_Validation_Layer_Handler::get_device_validation_layers(VkPhysicalDevice 
     std::cout << "|   Device Validation Layers   |" << std::endl;
     std::cout << "|------------------------------|" << std::endl;
     for (auto layer : avail_layers) {
-        std::cout << "\t- " << layer.layerName << ":" << std::endl;
-        std::cout << "\t+ " << layer.description << std::endl;
+        std::cout << "| - " << layer.layerName << ":" << std::endl;
+        std::cout << "| -- " << layer.description << std::endl;
     };
     std::cout << "|------------------------------|" << std::endl;
 }

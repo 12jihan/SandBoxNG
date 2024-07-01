@@ -22,16 +22,19 @@ const std::vector<const char*> val_layers = {
 
 void Vk_Instance::init() {
     _setup_extensions();
-    log_inst_layers();
     _create_instance();
 }
 
 void Vk_Instance::_setup_extensions() {
     _ext_handler.add_ext(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+    // std::cout << "the active extensions: " << std::endl;
+    // for (auto& ext : _ext_handler._get_ext_list()) {
+    //     std::cout << "\t-" << ext << std::endl;
+    // }
 };
 
 void Vk_Instance::_create_instance() {
-    bool _layer_support =  !_val_handler.check_validation_layers_support();
+    bool _layer_support = !_val_handler.check_validation_layers_support();
     if (enable_validation && _layer_support) {
         throw new std::runtime_error("Validation layers requested, but not available!");
     }
@@ -88,26 +91,3 @@ void Vk_Instance::clean() {
 VkInstance& Vk_Instance::get_instance() {
     return instance;
 }
-
-//** For testing purposes - start
-
-void Vk_Instance::log_inst_layers() {
-    uint32_t layer_count;
-    vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
-
-    std::vector<VkLayerProperties> layers(layer_count);
-    vkEnumerateInstanceLayerProperties(&layer_count, layers.data());
-
-    std::cout << "|---------------------------|" << std::endl;
-    std::cout << "| Available Instance Layers |" << std::endl;
-    std::cout << "|---------------------------|\n"
-              << std::endl;
-    for (const auto& layer : layers) {
-        std::cout << "\t- " << layer.layerName << ":" << std::endl;
-        std::cout << "\t\t- " << layer.description << "\n"
-                  << std::endl;
-    }
-    std::cout << "|---------------------------|" << std::endl;
-}
-
-//** For testing purposes - end
