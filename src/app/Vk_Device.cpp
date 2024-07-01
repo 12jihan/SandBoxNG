@@ -14,7 +14,7 @@ const std::vector<const char*> instance_val_layers = {
     "VK_LAYER_KHRONOS_validation",
 };
 
-void Vk_Device::init(VkInstance instance, bool enabled_validation_layers) {
+void Vk_Device::init(VkInstance instance, VkSurfaceKHR _surface, bool enabled_validation_layers) {
     _enable_validation_layers = enabled_validation_layers;
     _pick_physical_device(instance);
     _create_logical_device();
@@ -119,12 +119,20 @@ Vk_Device::QueueFamilyIndices Vk_Device::_find_queue_families(VkPhysicalDevice p
             indices.graphicsFamily = i;
         }
 
+        VkBool32 presentSupport = false;
+        vkGetPhysicalDeviceSurfaceSupportKHR(_physical_device, i, _surface, &presentSupport);
+
+        if (presentSupport) {
+            indices.presentFamily = i;
+        }
+
         if (indices.is_complete()) {
             break;
         }
 
         i++;
     }
+
     return indices;
 };
 
@@ -136,22 +144,22 @@ VkPhysicalDevice Vk_Device::get_physical_device() {
     return _physical_device;
 };
 
-void Vk_Device::_get_device_validations() {
-    uint32_t layer_count = 0;
-    vkEnumerateDeviceLayerProperties(_physical_device, &layer_count, nullptr);
-
-    std::vector<VkLayerProperties> avail_layers(layer_count);
-    vkEnumerateDeviceLayerProperties(_physical_device, &layer_count, avail_layers.data());
-
-    std::cout << "|-------------------|" << std::endl;
-    std::cout << "|   device layers:  |" << std::endl;
-    std::cout << "|-------------------|" << std::endl;
-    for (auto layer : avail_layers) {
-        std::cout << "-\t" << layer.layerName << std::endl;
-    }
-    std::cout << "|-------------------|" << std::endl;
-}
-
 void Vk_Device::clean() {
     vkDestroyDevice(_device, nullptr);
 }
+
+// void Vk_Device::_get_device_validations() {
+//     uint32_t layer_count = 0;
+//     vkEnumerateDeviceLayerProperties(_physical_device, &layer_count, nullptr);
+
+//     std::vector<VkLayerProperties> avail_layers(layer_count);
+//     vkEnumerateDeviceLayerProperties(_physical_device, &layer_count, avail_layers.data());
+
+//     std::cout << "|-------------------|" << std::endl;
+//     std::cout << "|   device layers:  |" << std::endl;
+//     std::cout << "|-------------------|" << std::endl;
+//     for (auto layer : avail_layers) {
+//         std::cout << "-\t" << layer.layerName << std::endl;
+//     }
+//     std::cout << "|-------------------|" << std::endl;
+// }

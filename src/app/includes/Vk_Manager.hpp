@@ -9,17 +9,22 @@
 #include "./Vk_Device.hpp"
 #include "./Vk_Ext_Handler.hpp"
 #include "./Vk_Instance.hpp"
+#include "./Vk_Window_Surface.hpp"
+#include "./WindowManager.hpp"
 
 class Vk_Manager {
    public:
-    void init();
+    void init(WindowManager& window);
     void clean();
 
    private:
     Vk_Debugger _debugger;
     Vk_Instance _instancer;
     Vk_Device _device;
+    Vk_Window_Surface _window_surface;
     Vk_Ext_Handler _ext_handler;
+    // Actual window:
+    WindowManager _window;
 
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;

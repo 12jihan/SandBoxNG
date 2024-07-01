@@ -21,25 +21,27 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
-const std::vector<const char*> instance_val_layers = {
+const std::vector<const char *> instance_val_layers = {
     "VK_LAYER_KHRONOS_validation",
 };
 
-const std::vector<const char*> instance_exts = {
+const std::vector<const char *> instance_exts = {
     VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
 };
 
-const std::vector<const char*> device_exts = {
+const std::vector<const char *> device_exts = {
     VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME,
 };
 
-void Vk_Manager::init() {
+void Vk_Manager::init(WindowManager &window) {
+    _window = window;
     _ext_handler._check_instance_ext_support();
     // check_ext_support();
     // check_validation_layer_support();
     _instancer.init();
     _debugger.setup_debug_messenger(_instancer.get_instance(), enableValidationLayers);
-    _device.init(_instancer.get_instance(), enableValidationLayers);
+    _window_surface.init(_instancer.get_instance(), _window.get_window());
+    _device.init(_instancer.get_instance(), _window_surface.get_surface(), enableValidationLayers);
     _ext_handler._check_device_ext_support(_device.get_physical_device());
 }
 

@@ -13,7 +13,7 @@ void Game::run() {
 
 void Game::init() {
     window.init();
-    vk_manager.init();
+    vk_manager.init(window);
 }
 
 void Game::loop() {

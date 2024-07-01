@@ -14,13 +14,15 @@ class Vk_Device {
     bool _enable_validation_layers = false;
     VkPhysicalDevice _physical_device = VK_NULL_HANDLE;
     VkDevice _device;
+    VkSurfaceKHR _surface;
     VkQueue _graphics_queue;
 
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;
+        std::optional<uint32_t> presentFamily;
 
         bool is_complete() {
-            return graphicsFamily.has_value();
+            return graphicsFamily.has_value() && presentFamily.has_value();
         }
     };
 
@@ -37,7 +39,10 @@ class Vk_Device {
     void _get_device_validations();
 
    public:
-    void init(VkInstance instance, bool enabled_validation_layers);
+    void init(
+        VkInstance instance,
+        VkSurfaceKHR _surface,
+        bool enabled_validation_layers);
 
     VkDevice get_logical_device();
 
