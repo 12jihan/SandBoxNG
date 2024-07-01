@@ -9,9 +9,7 @@
 
 #include "./tools/includes/Blk_Tools.hpp"
 
-std::vector<const char *> exts = {
-    VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
-};
+std::vector<const char *> exts;
 // Taking out this parameter for now
 // VkPhysicalDevice physical_device,
 void Vk_Ext_Handler::init(bool enable_validation) {

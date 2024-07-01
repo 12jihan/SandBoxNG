@@ -4,13 +4,12 @@
 
 #include <iostream>
 #include <vector>
-// #include <cstdint>
 
-std::vector<const char*> inst_val_layers = {
+std::vector<const char*> val_layers = {
     "VK_LAYER_KHRONOS_validation",
 };
 
-bool Vk_Validation_Layer_Handler::check_instance_validation_layers_support() {
+bool Vk_Validation_Layer_Handler::check_validation_layers_support() {
     uint32_t _count;
     vkEnumerateInstanceLayerProperties(&_count, nullptr);
 
@@ -20,7 +19,7 @@ bool Vk_Validation_Layer_Handler::check_instance_validation_layers_support() {
     std::cout << "|------------------------------|" << std::endl;
     std::cout << "|  Instance Validation Layers  |" << std::endl;
     std::cout << "|------------------------------|" << std::endl;
-    for (const char* layer_name : inst_val_layers) {
+    for (const char* layer_name : val_layers) {
         std::cout << "\t- " << layer_name << std::endl;
         bool layer_found = false;
         for (const auto& layer_props : avail_layers) {
@@ -56,9 +55,9 @@ void Vk_Validation_Layer_Handler::get_device_validation_layers(VkPhysicalDevice 
 }
 
 void Vk_Validation_Layer_Handler::add_layer(const char* layer) {
-    inst_val_layers.push_back(layer);
+    val_layers.push_back(layer);
 }
 
 std::vector<const char*> Vk_Validation_Layer_Handler::get_all_layers() {
-    return inst_val_layers;
+    return val_layers;
 }

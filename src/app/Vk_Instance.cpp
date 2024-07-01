@@ -31,7 +31,7 @@ void Vk_Instance::_setup_extensions() {
 };
 
 void Vk_Instance::_create_instance() {
-    bool _layer_support =  !_check_validation_layer_support();
+    bool _layer_support =  !_val_handler.check_validation_layers_support();
     if (enable_validation && _layer_support) {
         throw new std::runtime_error("Validation layers requested, but not available!");
     }
@@ -83,36 +83,6 @@ void Vk_Instance::_create_info() {
 
 void Vk_Instance::clean() {
     vkDestroyInstance(instance, nullptr);
-}
-
-bool Vk_Instance::_check_validation_layer_support() {
-    uint32_t layer_count;
-    vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
-
-    std::vector<VkLayerProperties> available_layers(layer_count);
-    vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
-
-    std::cout << "|----------------------------------|" << std::endl;
-    std::cout << "|  Validation Layer Support Check  |" << std::endl;
-    std::cout << "|----------------------------------|" << std::endl;
-    for (const char* layer_name : val_layers) {
-        bool layer_found = false;
-        std::cout << "+ " << layer_name << std::endl;
-
-        for (const auto& layer_properties : available_layers) {
-            if (strcmp(layer_name, layer_properties.layerName) == 0) {
-                layer_found = true;
-                break;
-            }
-        }
-
-        if (!layer_found) {
-            return false;
-        }
-    }
-    std::cout << "|----------------------------------|\n" << std::endl;
-
-    return true;
 }
 
 VkInstance& Vk_Instance::get_instance() {

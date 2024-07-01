@@ -6,11 +6,13 @@
 
 #include "Vk_Debugger.hpp"
 #include "Vk_Ext_Handler.hpp"
+#include "Vk_Validation_Layer_Handler.hpp"
 
 class Vk_Instance {
    private:
     Vk_Debugger _debugger;
     Vk_Ext_Handler _ext_handler;
+    Vk_Validation_Layer_Handler _val_handler;
 
     VkInstance instance;
     VkApplicationInfo app_info;
@@ -19,7 +21,6 @@ class Vk_Instance {
     void _create_instance();
     void _app_info();
     void _create_info();
-    bool _check_validation_layer_support();
     void _setup_extensions();
     std::vector<const char*> _get_req_exts();
 
