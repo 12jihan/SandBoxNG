@@ -17,8 +17,8 @@ const std::vector<const char*> instance_val_layers = {
 void Vk_Device::init(VkInstance instance, VkSurfaceKHR _surface, bool enabled_validation_layers) {
     _enable_validation_layers = enabled_validation_layers;
     _phys_dev.init(instance);
-    _pick_physical_device(instance);
-    _create_logical_device();
+    // _pick_physical_device(instance);
+    // _create_logical_device();
 }
 
 void Vk_Device::_pick_physical_device(VkInstance instance) {
@@ -40,10 +40,10 @@ void Vk_Device::_pick_physical_device(VkInstance instance) {
         vkGetPhysicalDeviceProperties(device, &device_props);
         vkGetPhysicalDeviceFeatures(device, &device_feats);
 
-        if (_is_device_suitable(device)) {
-            _physical_device = device;
-            break;
-        }
+        // if (_is_device_suitable(device)) {
+        //     _physical_device = device;
+        //     break;
+        // }
     }
 
     if (_physical_device == VK_NULL_HANDLE) {

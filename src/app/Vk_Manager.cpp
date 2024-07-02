@@ -40,7 +40,7 @@ void Vk_Manager::init(WindowManager &window) {
     _debugger.setup_debug_messenger(_instancer.get_instance(), enableValidationLayers);
     _window_surface.init(_instancer.get_instance(), _window.get_window());
     _device.init(_instancer.get_instance(), _window_surface.get_surface(), enableValidationLayers);
-    _ext_handler._check_device_ext_support(_device.get_physical_device());
+    // _ext_handler._check_device_ext_support(_device.get_physical_device());
 }
 
 void Vk_Manager::clean() {
