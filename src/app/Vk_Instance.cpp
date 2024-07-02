@@ -27,10 +27,6 @@ void Vk_Instance::init() {
 
 void Vk_Instance::_setup_extensions() {
     _ext_handler.add_ext(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
-    // std::cout << "the active extensions: " << std::endl;
-    // for (auto& ext : _ext_handler._get_ext_list()) {
-    //     std::cout << "\t-" << ext << std::endl;
-    // }
 };
 
 void Vk_Instance::_create_instance() {

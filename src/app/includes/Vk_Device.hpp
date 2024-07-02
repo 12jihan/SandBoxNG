@@ -6,16 +6,21 @@
 #include <optional>
 #include <vector>
 
+#include "./Vk_Physical_Device.hpp"
+
 class Vk_Device {
    private:
     const std::vector<const char*> _validation_layers = {
         "VK_LAYER_KHRONOS_validation",
     };
-    bool _enable_validation_layers = false;
+
+    Vk_Physical_Device _phys_dev;
     VkPhysicalDevice _physical_device = VK_NULL_HANDLE;
     VkDevice _device;
     VkSurfaceKHR _surface;
     VkQueue _graphics_queue;
+
+    bool _enable_validation_layers = false;
 
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;

@@ -36,8 +36,6 @@ const std::vector<const char *> device_exts = {
 void Vk_Manager::init(WindowManager &window) {
     _window = window;
     _ext_handler._check_instance_ext_support();
-    // check_ext_support();
-    // check_validation_layer_support();
     _instancer.init();
     _debugger.setup_debug_messenger(_instancer.get_instance(), enableValidationLayers);
     _window_surface.init(_instancer.get_instance(), _window.get_window());
@@ -46,6 +44,7 @@ void Vk_Manager::init(WindowManager &window) {
 }
 
 void Vk_Manager::clean() {
+    _window_surface.clean();
     _device.clean();
     _debugger.clean(_instancer.get_instance());
     _instancer.clean();
