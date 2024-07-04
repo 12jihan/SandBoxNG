@@ -47,13 +47,16 @@ void Vk_Instance::_app_info() {
     app_info.pEngineName = "No Engine";
     app_info.engineVersion = VK_MAKE_VERSION(1, 0, 0);
     app_info.apiVersion = VK_API_VERSION_1_0;
+    app_info.pNext = nullptr;
 }
 
 void Vk_Instance::_create_info() {
     // Handles creating everything else included with create_info object
     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    create_info.pNext = nullptr;                                           // Ensure pNext is set to nullptr
-    create_info.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;  // Set macOS compatibility flag
+    // Ensure pNext is set to nullptr
+    create_info.pNext = nullptr;
+    // Set macOS compatibility flag
+    create_info.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
     create_info.pApplicationInfo = &app_info;
 
     // Get required exts and enable them:

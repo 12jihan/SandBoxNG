@@ -36,30 +36,30 @@ void Vk_Physical_Device::_pick_physical_device() {
     }
     std::cout << "|------------------|" << std::endl;
     if (_physical_device != VK_NULL_HANDLE) {
-        std::cout << "physical device created!" << std::endl;
+        std::cout << "|- physical device created!" << std::endl;
     }
 };
 
 bool Vk_Physical_Device::_is_device_suitable(VkPhysicalDevice device) {
-    // VkPhysicalDeviceProperties device_props;
-    // VkPhysicalDeviceFeatures device_feats;
+    VkPhysicalDeviceProperties device_props;
+    VkPhysicalDeviceFeatures device_feats;
 
-    // vkGetPhysicalDeviceProperties(device, &device_props);
-    // vkGetPhysicalDeviceFeatures(device, &device_feats);
+    vkGetPhysicalDeviceProperties(device, &device_props);
+    vkGetPhysicalDeviceFeatures(device, &device_feats);
 
-    // std::cout << "|- " << "device: " << device << std::endl;
-    // std::cout << "|- " << "device name: " << device_props.deviceName << std::endl;
-    // std::cout << "|- " << "api ver: " << device_props.apiVersion << std::endl;
-    // std::cout << "|- " << "driver ver: " << device_props.driverVersion << std::endl;
-    // std::cout << "|- " << "device id: " << device_props.deviceID << std::endl;
-    // std::cout << "|- " << "device type: " << device_props.deviceType << std::endl;
-    // std::cout << "|- " << "vendor id: " << device_props.vendorID << std::endl;
-    // std::cout << "|- " << "geometry shader: " << (device_feats.geometryShader ? "true" : "false") << std::endl;
+    std::cout << "|- " << "device: " << device << std::endl;
+    std::cout << "|- " << "device name: " << device_props.deviceName << std::endl;
+    std::cout << "|- " << "api ver: " << device_props.apiVersion << std::endl;
+    std::cout << "|- " << "driver ver: " << device_props.driverVersion << std::endl;
+    std::cout << "|- " << "device id: " << device_props.deviceID << std::endl;
+    std::cout << "|- " << "device type: " << device_props.deviceType << std::endl;
+    std::cout << "|- " << "vendor id: " << device_props.vendorID << std::endl;
+    std::cout << "|- " << "geometry shader: " << (device_feats.geometryShader ? "true" : "false") << std::endl;
 
     // return device_props.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU;
 
     QueueFamilyIndices indices = _find_queue_families(device);
-
+    // std::cout << "|- indices boolean: " << indices.is_complete() << std::endl;
     return indices.is_complete();
 };
 
@@ -81,7 +81,7 @@ Vk_Physical_Device::QueueFamilyIndices Vk_Physical_Device::_find_queue_families(
         if (queue_family.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
             indices.graphics_family = i;
         }
-        std::cout << "graphics family:" << indices.graphics_family.value() << std::endl;
+        std::cout << "|- graphics family:" << indices.graphics_family.value() << std::endl;
         if (indices.is_complete()) {
             break;
         }

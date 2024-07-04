@@ -8,10 +8,17 @@ class Vk_Physical_Device {
    private:
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphics_family;
-        std::optional<uint32_t> present_family;
+        // std::optional<uint32_t> present_family;
 
         bool is_complete() {
-            return graphics_family.has_value() && present_family.has_value();
+            // std::cout << "|- graphics family:" << graphics_family.value() << std::endl;
+            std::cout << "|- graphics has value:" << graphics_family.has_value() << std::endl;
+
+            // std::cout << "present family:" << present_family.value() << std::endl;
+            // std::cout << "present has value:" << present_family.has_value() << std::endl;
+
+            return graphics_family.has_value();
+            //  && present_family.has_value();
         };
     };
 
