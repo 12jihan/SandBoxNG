@@ -7,11 +7,11 @@
 class Vk_Physical_Device {
    private:
     struct QueueFamilyIndices {
-        std::optional<uint32_t> graphicsFamily;
-        std::optional<uint32_t> presentFamily;
+        std::optional<uint32_t> graphics_family;
+        std::optional<uint32_t> present_family;
 
         bool is_complete() {
-            return graphicsFamily.has_value() && presentFamily.has_value();
+            return graphics_family.has_value() && present_family.has_value();
         };
     };
 
@@ -23,7 +23,7 @@ class Vk_Physical_Device {
 
     void _pick_physical_device();
     bool _is_device_suitable(VkPhysicalDevice device);
-    QueueFamilyIndices _find_family_indices(VkPhysicalDevice device);
+    QueueFamilyIndices _find_queue_families(VkPhysicalDevice device);
 
    public:
     void init(VkInstance instance);
