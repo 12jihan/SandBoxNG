@@ -21,36 +21,6 @@ void Vk_Device::init(VkInstance instance, VkSurfaceKHR _surface, bool enabled_va
     // _create_logical_device();
 }
 
-void Vk_Device::_pick_physical_device(VkInstance instance) {
-    // Takes in the instance for use
-    const VkInstance _instance = instance;
-
-    // Count the devices that are available for use
-    uint32_t device_count = 0;
-    vkEnumeratePhysicalDevices(_instance, &device_count, nullptr);
-    if (device_count == 0) throw std::runtime_error("failed to find GPUs with Vulkan support!");
-
-    // Get the devices
-    std::vector<VkPhysicalDevice> devices(device_count);
-    vkEnumeratePhysicalDevices(_instance, &device_count, devices.data());
-
-    for (const auto& device : devices) {
-        VkPhysicalDeviceProperties device_props;
-        VkPhysicalDeviceFeatures device_feats;
-        vkGetPhysicalDeviceProperties(device, &device_props);
-        vkGetPhysicalDeviceFeatures(device, &device_feats);
-
-        // if (_is_device_suitable(device)) {
-        //     _physical_device = device;
-        //     break;
-        // }
-    }
-
-    if (_physical_device == VK_NULL_HANDLE) {
-        throw std::runtime_error("failed to find a suitable GPU!");
-    }
-}
-
 void Vk_Device::_create_logical_device() {
     QueueFamilyIndices _indices = _find_queue_families(_physical_device);
 

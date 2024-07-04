@@ -5,13 +5,10 @@
 
 class Vk_Logical_Device {
    private:
-    VkInstance _instance;
-    VkSurfaceKHR _surface;
-
-    void _pick_physical_device(VkInstance instance, VkSurfaceKHR surface);
-    void _is_device_suitable(VkPhysicalDevice physical_device, VkSurfaceKHR surface);
+    VkDevice _device = VK_NULL_HANDLE;
+    VkPhysicalDevice _physical_device = VK_NULL_HANDLE;
+    void _create_logical_device();
 
    public:
-    void init(VkInstance instance, VkSurfaceKHR surface);
-    void create_logical_device();
+    void init(VkPhysicalDevice physical_device);
 };
