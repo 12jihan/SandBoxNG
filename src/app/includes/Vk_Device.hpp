@@ -6,6 +6,7 @@
 #include <optional>
 #include <vector>
 
+#include "./Vk_Logical_Device.hpp"
 #include "./Vk_Physical_Device.hpp"
 
 class Vk_Device {
@@ -15,6 +16,7 @@ class Vk_Device {
     };
 
     Vk_Physical_Device _phys_dev;
+    Vk_Logical_Device _log_dev;
     VkPhysicalDevice _physical_device = VK_NULL_HANDLE;
     VkDevice _device;
     VkSurfaceKHR _surface;

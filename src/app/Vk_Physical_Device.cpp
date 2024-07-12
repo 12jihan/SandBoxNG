@@ -58,7 +58,7 @@ bool Vk_Physical_Device::_is_device_suitable(VkPhysicalDevice device) {
 
     // return device_props.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU;
 
-    QueueFamilyIndices indices = _find_queue_families(device);
+    QueueFamilyIndices indices = find_queue_families();
     // std::cout << "|- indices boolean: " << indices.is_complete() << std::endl;
     return indices.is_complete();
 };
@@ -68,13 +68,13 @@ VkPhysicalDevice Vk_Physical_Device::get_physical_device() {
 }
 
 // Look over this but to see exactly what it's doing cuz I have no fucking idea.
-Vk_Physical_Device::QueueFamilyIndices Vk_Physical_Device::_find_queue_families(VkPhysicalDevice device) {
+Vk_Physical_Device::QueueFamilyIndices Vk_Physical_Device::find_queue_families() {
     QueueFamilyIndices indices;
     uint32_t queue_family_count = 0;
-    vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, nullptr);
+    vkGetPhysicalDeviceQueueFamilyProperties(_physical_device, &queue_family_count, nullptr);
 
     std::vector<VkQueueFamilyProperties> queue_families(queue_family_count);
-    vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, queue_families.data());
+    vkGetPhysicalDeviceQueueFamilyProperties(_physical_device, &queue_family_count, queue_families.data());
 
     int i = 0;
     for (const auto& queue_family : queue_families) {

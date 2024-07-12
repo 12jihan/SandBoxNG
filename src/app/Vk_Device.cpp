@@ -1,9 +1,10 @@
 #include "./includes/Vk_Device.hpp"
-
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_beta.h>
 
 #include <iostream>
+
+#include "./includes/Vk_Logical_Device.hpp"
 
 // TODO: putting the validation and extension layers here for now
 const std::vector<const char*> device_exts = {
@@ -17,8 +18,7 @@ const std::vector<const char*> instance_val_layers = {
 void Vk_Device::init(VkInstance instance, VkSurfaceKHR _surface, bool enabled_validation_layers) {
     _enable_validation_layers = enabled_validation_layers;
     _phys_dev.init(instance);
-    // _pick_physical_device(instance);
-    // _create_logical_device();
+    _log_dev.init(_phys_dev);
 }
 
 void Vk_Device::_create_logical_device() {
@@ -69,69 +69,5 @@ void Vk_Device::_create_logical_device() {
     vkGetDeviceQueue(_device, _indices.graphicsFamily.value(), 0, &_graphics_queue);
 }
 
-bool Vk_Device::_is_device_suitable(VkPhysicalDevice physical_device) {
-    const auto _test = physical_device;
-    Vk_Device::QueueFamilyIndices indices = _find_queue_families(physical_device);
-    return indices.is_complete();
-};
-
-Vk_Device::QueueFamilyIndices Vk_Device::_find_queue_families(VkPhysicalDevice physical_device) {
-    QueueFamilyIndices indices;
-
-    uint32_t queue_family_count = 0;
-    vkGetPhysicalDeviceQueueFamilyProperties(physical_device, &queue_family_count, nullptr);
-
-    std::vector<VkQueueFamilyProperties> queue_families(queue_family_count);
-    vkGetPhysicalDeviceQueueFamilyProperties(physical_device, &queue_family_count, queue_families.data());
-
-    // Logic to find queue family indices to populate struct with
-    int i = 0;
-    for (const auto& queue_family : queue_families) {
-        if (queue_family.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-            indices.graphicsFamily = i;
-        }
-
-        VkBool32 presentSupport = false;
-        vkGetPhysicalDeviceSurfaceSupportKHR(_physical_device, i, _surface, &presentSupport);
-
-        if (presentSupport) {
-            indices.presentFamily = i;
-        }
-
-        if (indices.is_complete()) {
-            break;
-        }
-
-        i++;
-    }
-
-    return indices;
-};
-
-VkDevice Vk_Device::get_logical_device() {
-    return _device;
-};
-
-VkPhysicalDevice Vk_Device::get_physical_device() {
-    return _physical_device;
-};
-
 void Vk_Device::clean() {
-    vkDestroyDevice(_device, nullptr);
 }
-
-// void Vk_Device::_get_device_validations() {
-//     uint32_t layer_count = 0;
-//     vkEnumerateDeviceLayerProperties(_physical_device, &layer_count, nullptr);
-
-//     std::vector<VkLayerProperties> avail_layers(layer_count);
-//     vkEnumerateDeviceLayerProperties(_physical_device, &layer_count, avail_layers.data());
-
-//     std::cout << "|-------------------|" << std::endl;
-//     std::cout << "|   device layers:  |" << std::endl;
-//     std::cout << "|-------------------|" << std::endl;
-//     for (auto layer : avail_layers) {
-//         std::cout << "-\t" << layer.layerName << std::endl;
-//     }
-//     std::cout << "|-------------------|" << std::endl;
-// }

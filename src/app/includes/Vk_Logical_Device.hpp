@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vulkan/vulkan.h>
+#include "Vk_Physical_Device.hpp"
 // #include <vulkan/vulkan_beta.h>
 
 class Vk_Logical_Device {
@@ -10,5 +11,5 @@ class Vk_Logical_Device {
     void _create_logical_device();
 
    public:
-    void init(VkPhysicalDevice physical_device);
+    void init(Vk_Physical_Device physical_device_class);
 };
