@@ -1,9 +1,10 @@
 #include "./includes/Vk_Logical_Device.hpp"
 
-#include <iostream>
 #include <vulkan/vulkan.h>
-#include "Vk_Logical_Device.hpp"
-#include "Vk_Physical_Device.hpp"
+
+#include <iostream>
+
+#include "./includes/Vk_Physical_Device.hpp"
 
 void Vk_Logical_Device::_create_logical_device() {
     // Setup queuec reate info
@@ -12,5 +13,5 @@ void Vk_Logical_Device::_create_logical_device() {
 };
 
 void Vk_Logical_Device::init(Vk_Physical_Device physical_device_class) {
-    
-}
+    _physical_device = physical_device_class.get_physical_device();
+};
