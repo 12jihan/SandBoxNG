@@ -3,6 +3,7 @@
 #include <vulkan/vulkan.h>
 
 #include <iostream>
+#include <vector>
 #include <optional>
 
 class Vk_Physical_Device {
@@ -19,6 +20,7 @@ class Vk_Physical_Device {
     void init(VkInstance instance);
     void clean();
 
+    // function that will not modify the internal properties
     VkPhysicalDevice get_physical_device() const;
     VkPhysicalDeviceProperties get_properties() const;
     VkPhysicalDeviceFeatures get_features() const;
