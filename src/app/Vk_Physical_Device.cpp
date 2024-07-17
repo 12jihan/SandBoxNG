@@ -30,12 +30,12 @@ void Vk_Physical_Device::_pick_physical_device() {
     for (const auto& device : devices) {
         vkGetPhysicalDeviceProperties(device, &_properties);
         vkGetPhysicalDeviceFeatures(device, &_features);
-
+        std::cout << "|- " << device << std::endl;
         // Add further checks for suitablility here
         _physical_device = device;
         break;
     }
-    std::cout << "|------------------|" << std::endl;
+    std::cout << "|------------------|\n\n" << std::endl;
     if (_physical_device != VK_NULL_HANDLE) {
         std::cout << "|- physical device created!" << std::endl;
     }
