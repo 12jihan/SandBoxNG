@@ -27,66 +27,34 @@ void Vk_Physical_Device::_pick_physical_device() {
 
     // Loop through the available devices and set
     for (const auto& device : devices) {
-        if (_is_device_suitable(device) && (devices.size() == 1)) {
-            _physical_device = device;
-            break;
-        } else {
-            throw std::runtime_error("Handle finding multiple devices!");
-        }
+        vkGetPhysicalDeviceProperties(device, &_properties);
+        vkGetPhysicalDeviceFeatures(device, &_features);
+
+        // Add further checks for suitablility here
+        _physical_device = device;
+        break;
     }
     std::cout << "|------------------|" << std::endl;
     if (_physical_device != VK_NULL_HANDLE) {
         std::cout << "|- physical device created!" << std::endl;
     }
+
+    vkGetPhysicalDeviceQueueFamilyProperties(_physical_device, &_device_count, nullptr);
+    _queue_family_properties.resize(_device_count);
+    vkGetPhysicalDeviceQueueFamilyProperties(_physical_device, &_device_count, _queue_family_properties.data());
 };
 
-bool Vk_Physical_Device::_is_device_suitable(VkPhysicalDevice device) {
-    VkPhysicalDeviceProperties device_props;
-    VkPhysicalDeviceFeatures device_feats;
-
-    vkGetPhysicalDeviceProperties(device, &device_props);
-    vkGetPhysicalDeviceFeatures(device, &device_feats);
-
-    std::cout << "|- " << "device: " << device << std::endl;
-    std::cout << "|- " << "device name: " << device_props.deviceName << std::endl;
-    std::cout << "|- " << "api ver: " << device_props.apiVersion << std::endl;
-    std::cout << "|- " << "driver ver: " << device_props.driverVersion << std::endl;
-    std::cout << "|- " << "device id: " << device_props.deviceID << std::endl;
-    std::cout << "|- " << "device type: " << device_props.deviceType << std::endl;
-    std::cout << "|- " << "vendor id: " << device_props.vendorID << std::endl;
-    std::cout << "|- " << "geometry shader: " << (device_feats.geometryShader ? "true" : "false") << std::endl;
-
-    // return device_props.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU;
-
-    QueueFamilyIndices indices = find_queue_families();
-    // std::cout << "|- indices boolean: " << indices.is_complete() << std::endl;
-    return indices.is_complete();
-};
-
-VkPhysicalDevice Vk_Physical_Device::get_physical_device() {
+VkPhysicalDevice Vk_Physical_Device::get_physical_device() const {
     return _physical_device;
 }
 
-// Look over this but to see exactly what it's doing cuz I have no fucking idea.
-Vk_Physical_Device::QueueFamilyIndices Vk_Physical_Device::find_queue_families() {
-    QueueFamilyIndices indices;
-    uint32_t queue_family_count = 0;
-    vkGetPhysicalDeviceQueueFamilyProperties(_physical_device, &queue_family_count, nullptr);
+VkPhysicalDeviceProperties Vk_Physical_Device::get_properties() const {
+    return _properties;
+}
 
-    std::vector<VkQueueFamilyProperties> queue_families(queue_family_count);
-    vkGetPhysicalDeviceQueueFamilyProperties(_physical_device, &queue_family_count, queue_families.data());
-
-    int i = 0;
-    for (const auto& queue_family : queue_families) {
-        if (queue_family.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-            indices.graphics_family = i;
-        }
-        std::cout << "|- graphics family:" << indices.graphics_family.value() << std::endl;
-        if (indices.is_complete()) {
-            break;
-        }
-
-        i++;
-    }
-    return indices;
-};
+VkPhysicalDeviceFeatures Vk_Physical_Device::get_features() const {
+    return _features;
+}
+std::vector<VkQueueFamilyProperties> Vk_Physical_Device::get_queue_family_properties() const {
+    return _queue_family_properties;
+}

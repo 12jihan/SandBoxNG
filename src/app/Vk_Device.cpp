@@ -1,10 +1,12 @@
 #include "./includes/Vk_Device.hpp"
+
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_beta.h>
 
 #include <iostream>
 
 #include "./includes/Vk_Logical_Device.hpp"
+#include "./includes/Vk_Physical_Device.hpp"
 
 // TODO: putting the validation and extension layers here for now
 const std::vector<const char*> device_exts = {
@@ -17,56 +19,62 @@ const std::vector<const char*> instance_val_layers = {
 
 void Vk_Device::init(VkInstance instance, VkSurfaceKHR _surface, bool enabled_validation_layers) {
     _enable_validation_layers = enabled_validation_layers;
-    _phys_dev.init(instance);
-    _log_dev.init(_phys_dev);
+    _physical_device.init(instance);
+    _logical_device.init(_physical_device);
+
+    if (!is_device_suitable(_physical_device.get_physical_device())) {
+        throw std::runtime_error("Failed to find a suitable GPU!");
+    }
 }
 
-void Vk_Device::_create_logical_device() {
-    QueueFamilyIndices _indices = _find_queue_families(_physical_device);
+QueueFamilyIndices Vk_Device::find_queue_families(VkPhysicalDevice physical_device) {
+    VkPhysicalDevice _device = physical_device;
+    QueueFamilyIndices indices;
+    uint32_t queue_family_count = 0;
+    vkGetPhysicalDeviceQueueFamilyProperties(_device, &queue_family_count, nullptr);
 
-    // Specifying the queues to be created
-    VkDeviceQueueCreateInfo queue_create_info{};
-    queue_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-    queue_create_info.queueFamilyIndex = _indices.graphicsFamily.value();
-    queue_create_info.queueCount = 1;
+    std::vector<VkQueueFamilyProperties> queue_families(queue_family_count);
+    vkGetPhysicalDeviceQueueFamilyProperties(_device, &queue_family_count, queue_families.data());
 
-    // setting the queues priority using floating point numbers
-    float queue_priority = 1.0f;
-    queue_create_info.pQueuePriorities = &queue_priority;
+    int i = 0;
+    for (const auto& queue_family : queue_families) {
+        if (queue_family.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+            indices.graphics_family = i;
+        }
+        std::cout << "|- graphics family:" << indices.graphics_family.value() << std::endl;
+        if (indices.is_complete()) {
+            break;
+        }
 
-    // specifying the device features
-    VkPhysicalDeviceFeatures device_features{};
-
-    // Create the logical device
-    VkDeviceCreateInfo create_info{};
-    create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-
-    create_info.pQueueCreateInfos = &queue_create_info;
-    create_info.queueCreateInfoCount = 1;
-
-    create_info.enabledExtensionCount = static_cast<uint32_t>(device_exts.size());
-    create_info.ppEnabledExtensionNames = device_exts.data();
-
-    create_info.pEnabledFeatures = &device_features;
-
-    // const char* device_ext = "VK_KHR_portability_subset";
-
-    // Testing a few things here:
-    // get_device_exts();
-    // get_device_vals();
-
-    if (_enable_validation_layers) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(instance_val_layers.size());
-        create_info.ppEnabledLayerNames = instance_val_layers.data();
-    } else {
-        create_info.enabledExtensionCount = 0;
+        i++;
     }
 
-    if (vkCreateDevice(_physical_device, &create_info, nullptr, &_device) != VK_SUCCESS) {
-        throw std::runtime_error("failed to create logical device!");
-    }
+    return indices;
+}
 
-    vkGetDeviceQueue(_device, _indices.graphicsFamily.value(), 0, &_graphics_queue);
+bool Vk_Device::is_device_suitable(VkPhysicalDevice physical_device) {
+    VkPhysicalDevice _device = physical_device;
+
+    VkPhysicalDeviceProperties device_props;
+    VkPhysicalDeviceFeatures device_feats;
+
+    vkGetPhysicalDeviceProperties(_device, &device_props);
+    vkGetPhysicalDeviceFeatures(_device, &device_feats);
+
+    std::cout << "|- " << "device: " << _device << std::endl;
+    std::cout << "|- " << "device name: " << device_props.deviceName << std::endl;
+    std::cout << "|- " << "api ver: " << device_props.apiVersion << std::endl;
+    std::cout << "|- " << "driver ver: " << device_props.driverVersion << std::endl;
+    std::cout << "|- " << "device id: " << device_props.deviceID << std::endl;
+    std::cout << "|- " << "device type: " << device_props.deviceType << std::endl;
+    std::cout << "|- " << "vendor id: " << device_props.vendorID << std::endl;
+    std::cout << "|- " << "geometry shader: " << (device_feats.geometryShader ? "true" : "false") << std::endl;
+
+    // return device_props.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU;
+
+    QueueFamilyIndices indices = find_queue_families(_device);
+    // std::cout << "|- indices boolean: " << indices.is_complete() << std::endl;
+    return indices.is_complete();
 }
 
 void Vk_Device::clean() {

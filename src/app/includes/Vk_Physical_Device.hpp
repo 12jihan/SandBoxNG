@@ -1,30 +1,26 @@
+#pragma once
+
 #include <vulkan/vulkan.h>
 
 #include <iostream>
 #include <optional>
-// #include <vulkan/vulkan_beta.h>
 
 class Vk_Physical_Device {
    private:
-    struct QueueFamilyIndices {
-        std::optional<uint32_t> graphics_family;
-
-        bool is_complete() {
-            return graphics_family.has_value();
-        };
-    };
-
-    VkInstance _instance = VK_NULL_HANDLE;
-    VkSurfaceKHR _surface = VK_NULL_HANDLE;
-    VkPhysicalDevice _physical_device = VK_NULL_HANDLE;
+    VkInstance _instance;
+    VkPhysicalDevice _physical_device;
     VkPhysicalDeviceProperties _properties;
-    VkPhysicalDeviceProperties _features;
+    VkPhysicalDeviceFeatures _features;
+    std::vector<VkQueueFamilyProperties> _queue_family_properties;
 
     void _pick_physical_device();
-    bool _is_device_suitable(VkPhysicalDevice device);
 
    public:
     void init(VkInstance instance);
-    VkPhysicalDevice get_physical_device();
-    QueueFamilyIndices find_queue_families();
+    void clean();
+
+    VkPhysicalDevice get_physical_device() const;
+    VkPhysicalDeviceProperties get_properties() const;
+    VkPhysicalDeviceFeatures get_features() const;
+    std::vector<VkQueueFamilyProperties> get_queue_family_properties() const;
 };

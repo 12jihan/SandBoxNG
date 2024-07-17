@@ -9,51 +9,43 @@
 #include "./Vk_Logical_Device.hpp"
 #include "./Vk_Physical_Device.hpp"
 
+struct QueueFamilyIndices {
+    std::optional<uint32_t> graphics_family;
+    std::optional<uint32_t> present_family;
+
+    bool is_complete() {
+        return graphics_family.has_value() && present_family.has_value();
+    }
+};
+
 class Vk_Device {
    private:
+    bool _enable_validation_layers = false;
+
     const std::vector<const char*> _validation_layers = {
         "VK_LAYER_KHRONOS_validation",
     };
 
-    Vk_Physical_Device _phys_dev;
-    Vk_Logical_Device _log_dev;
-    VkPhysicalDevice _physical_device = VK_NULL_HANDLE;
-    VkDevice _device;
-    VkSurfaceKHR _surface;
-    VkQueue _graphics_queue;
-
-    bool _enable_validation_layers = false;
-
-    struct QueueFamilyIndices {
-        std::optional<uint32_t> graphicsFamily;
-        std::optional<uint32_t> presentFamily;
-
-        bool is_complete() {
-            return graphicsFamily.has_value() && presentFamily.has_value();
-        }
-    };
+    VkInstance _instance;
+    Vk_Physical_Device _physical_device;
+    Vk_Logical_Device _logical_device;
 
     std::vector<const char*> get_req_exts();
-    QueueFamilyIndices _find_queue_families(VkPhysicalDevice physical_device);
-
     bool _check_validation_layer_support();
     bool _verify_ext_support();
-    bool _verify_device_ext_support();
-    bool _is_device_suitable(VkPhysicalDevice physical_device);
-
-    void _pick_physical_device(VkInstance instance);
-    void _create_logical_device();
     void _get_device_validations();
+    bool _verify_device_ext_support();
 
    public:
     void init(
         VkInstance instance,
         VkSurfaceKHR _surface,
         bool enabled_validation_layers);
-
-    VkDevice get_logical_device();
-
-    VkPhysicalDevice get_physical_device();
-
     void clean();
+
+    Vk_Physical_Device& get_physical_device();
+    Vk_Logical_Device& get_logical_device();
+
+    QueueFamilyIndices find_queue_families(VkPhysicalDevice physical_device);
+    bool is_device_suitable(VkPhysicalDevice physical_device);
 };
