@@ -30,15 +30,16 @@ void Vk_Physical_Device::_pick_physical_device() {
     for (const auto& device : devices) {
         vkGetPhysicalDeviceProperties(device, &_properties);
         vkGetPhysicalDeviceFeatures(device, &_features);
-        std::cout << "|- " << device << std::endl;
+        std::cout << "|- Device: " << device << std::endl;
         // Add further checks for suitablility here
         _physical_device = device;
         break;
     }
-    std::cout << "|------------------|\n\n" << std::endl;
-    if (_physical_device != VK_NULL_HANDLE) {
-        std::cout << "|- physical device created!" << std::endl;
-    }
+    std::cout << "|------------------|\n\n"
+              << std::endl;
+    // if (_physical_device != VK_NULL_HANDLE) {
+    //     std::cout << "|- physical device created!" << std::endl;
+    // }
 
     vkGetPhysicalDeviceQueueFamilyProperties(_physical_device, &_device_count, nullptr);
     _queue_family_properties.resize(_device_count);
@@ -56,6 +57,7 @@ VkPhysicalDeviceProperties Vk_Physical_Device::get_properties() const {
 VkPhysicalDeviceFeatures Vk_Physical_Device::get_features() const {
     return _features;
 }
+
 std::vector<VkQueueFamilyProperties> Vk_Physical_Device::get_queue_family_properties() const {
     return _queue_family_properties;
 }

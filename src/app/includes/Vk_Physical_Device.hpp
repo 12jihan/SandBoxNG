@@ -3,8 +3,8 @@
 #include <vulkan/vulkan.h>
 
 #include <iostream>
-#include <vector>
 #include <optional>
+#include <vector>
 
 class Vk_Physical_Device {
    private:

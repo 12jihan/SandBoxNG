@@ -41,7 +41,7 @@ QueueFamilyIndices Vk_Device::find_queue_families(VkPhysicalDevice physical_devi
         if (queue_family.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
             indices.graphics_family = i;
         }
-        std::cout << "|- graphics family:" << indices.graphics_family.value() << std::endl;
+        std::cout << "|- graphics family: " << indices.graphics_family.value() << std::endl;
         if (indices.is_complete()) {
             break;
         }
@@ -61,7 +61,9 @@ bool Vk_Device::is_device_suitable(VkPhysicalDevice physical_device) {
     vkGetPhysicalDeviceProperties(_device, &device_props);
     vkGetPhysicalDeviceFeatures(_device, &device_feats);
 
-    std::cout << "|- " << "device: " << _device << std::endl;
+    std::cout << "|-------------------------| " << std::endl;
+    std::cout << "|   Device: " << _device << "   |" << std::endl;
+    std::cout << "|-------------------------| " << std::endl;
     std::cout << "|- " << "device name: " << device_props.deviceName << std::endl;
     std::cout << "|- " << "api ver: " << device_props.apiVersion << std::endl;
     std::cout << "|- " << "driver ver: " << device_props.driverVersion << std::endl;
@@ -74,6 +76,7 @@ bool Vk_Device::is_device_suitable(VkPhysicalDevice physical_device) {
 
     QueueFamilyIndices indices = find_queue_families(_device);
     // std::cout << "|- indices boolean: " << indices.is_complete() << std::endl;
+    std::cout << "|-------------------------| " << std::endl;
     return indices.is_complete();
 }
 
